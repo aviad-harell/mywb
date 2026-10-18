@@ -1,0 +1,755 @@
+<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>*{box-sizing:border-box}html{color-scheme:light}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>my WB</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="my WB">
+<meta name="theme-color" content="#fdeef5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Secular+One&family=Rubik:wght@400;500;700&display=swap">
+<style>
+/* Layout: one timetable — days across the top; three softly tinted blocks (before school, school, after school) with gaps between; white empty cubes */
+:root{
+  --bg:#ffffff; --paper:#ffffff; --ink:#1f2a44; --muted:#5d6b85; --line:#d9e2ee; --cube:#ffffff; --cube-line:#d3dcea;
+  --tint-before:#fdeef5; --tint-school:#eaf3fd; --tint-after:#e9f7ee; --tint-head:#fff6d6;
+  --tint-chat:#f2edfb; --edge-chat:#d8ccf2; --edge-head:#f3e2a6;
+  --pink:#f8c8dc; --pink-soft:#fdf2f7; --pink-edge:#f3d3e2; --pink-ink:#9b4a74; --baby-blue:#cfe3fb; --on-pink:#3b2440;
+  --bg-grad:conic-gradient(#f1f2f5 25%,#ffffff 0 50%,#f1f2f5 0 75%,#ffffff 0);
+  --invite-grad:linear-gradient(90deg,#dcebfd 0%,#ede8f8 50%,#fde3ef 100%);
+  --edge-before:#f3c6da; --edge-school:#b4cff0; --edge-after:#afdfc6;
+  --sky:#2b7de9; --sun:#ffc93c; --tomato:#ff6b57;
+  --c0:#4f8ff7; --c1:#ff7a66; --c2:#33c49a; --c3:#9a6cf7; --c4:#ffb92e; --c5:#f25ca8; --c6:#26b5d1; --c7:#8bc34a; --c8:#ff9447; --c9:#7a8cff;
+  --display:"Secular One","Rubik",system-ui,sans-serif;
+  --body:"Rubik",system-ui,"Segoe UI",Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141b2b; --paper:#1c2438; --ink:#eef3ff; --muted:#a3b0cc; --line:#2e3a57; --cube:#1a2134; --cube-line:#34405e;
+  --tint-before:#33212c; --tint-school:#1e2a40; --tint-after:#1c2c2a; --tint-head:#33301f;
+  --tint-chat:#272238; --edge-chat:#463c66; --edge-head:#5c5530;
+  --pink:#e7a9c6; --pink-soft:#2a2030; --pink-edge:#4d3446; --pink-ink:#f2bdd6; --baby-blue:#4a6890; --on-pink:#2a1830;
+  --bg-grad:conic-gradient(#1a2132 25%,#141b2b 0 50%,#1a2132 0 75%,#141b2b 0);
+  --invite-grad:linear-gradient(90deg,#1f2c45 0%,#2a2540 50%,#35212f 100%);
+  --edge-before:#6b3d55; --edge-school:#3d5a86; --edge-after:#3a6a58;
+  --sky:#5aa2ff; --sun:#ffd25e; --tomato:#ff8a78; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141b2b; --paper:#1c2438; --ink:#eef3ff; --muted:#a3b0cc; --line:#2e3a57; --cube:#1a2134; --cube-line:#34405e;
+  --tint-before:#33212c; --tint-school:#1e2a40; --tint-after:#1c2c2a; --tint-head:#33301f;
+  --tint-chat:#272238; --edge-chat:#463c66; --edge-head:#5c5530;
+  --pink:#e7a9c6; --pink-soft:#2a2030; --pink-edge:#4d3446; --pink-ink:#f2bdd6; --baby-blue:#4a6890; --on-pink:#2a1830;
+  --bg-grad:conic-gradient(#1a2132 25%,#141b2b 0 50%,#1a2132 0 75%,#141b2b 0);
+  --invite-grad:linear-gradient(90deg,#1f2c45 0%,#2a2540 50%,#35212f 100%);
+  --edge-before:#6b3d55; --edge-school:#3d5a86; --edge-after:#3a6a58;
+  --sky:#5aa2ff; --sun:#ffd25e; --tomato:#ff8a78; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);background-image:var(--bg-grad);background-size:48px 48px;background-attachment:fixed;color:var(--ink);font-family:var(--body);font-size:16px}
+html{scrollbar-color:var(--pink) var(--baby-blue)}
+::-webkit-scrollbar{width:12px;height:12px}
+::-webkit-scrollbar-track{background:color-mix(in srgb,var(--baby-blue) 45%,transparent);border-radius:8px}
+::-webkit-scrollbar-thumb{background:linear-gradient(135deg,var(--pink),var(--baby-blue));border-radius:8px;border:2px solid transparent;background-clip:padding-box}
+.board{scrollbar-color:var(--pink) color-mix(in srgb,var(--baby-blue) 45%,transparent)}
+.wrap{max-width:1440px;margin:0 auto;padding-block:20px 60px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:flex;flex-direction:column;gap:16px}
+header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(28px,6vw,44px);margin:0;line-height:1.1}
+.title{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding-block:6px}
+.title .tw{font-family:var(--display);font-weight:400;font-size:clamp(30px,6.5vw,48px);line-height:1;padding:12px 18px 14px;border-radius:18px;border:2px solid;color:var(--ink);display:inline-block;box-shadow:0 5px 0 var(--tw-shadow)}
+.title .t1{background:var(--tint-school);border-color:var(--edge-school);--tw-shadow:var(--edge-school);transform:rotate(-2deg)}
+.title .t2{background:var(--invite-grad);border-color:var(--pink-edge);--tw-shadow:var(--pink-edge);transform:rotate(1.5deg)}
+.title .t3{background:var(--tint-after);border-color:var(--edge-after);--tw-shadow:var(--edge-after);transform:rotate(-1.5deg)}
+.week-dots{display:flex;gap:6px;margin-top:12px;padding-inline-start:4px}
+.week-dots i{font-style:normal;width:26px;height:26px;border-radius:7px;background:var(--tint-head);border:1.5px solid var(--edge-head);font-size:12px;font-weight:500;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.week-dots i.on{background:var(--sun);border-color:var(--sun);color:#1f2a44;transform:translateY(-3px)}
+@media (prefers-reduced-motion:no-preference){.title .tw{transition:transform .2s}.title .tw:hover{transform:rotate(0) translateY(-2px)}}
+.sub{color:var(--muted);margin:4px 0 0}
+button{font-family:var(--body);font-size:16px;cursor:pointer;border:none;border-radius:14px;padding:10px 16px;font-weight:500;color:var(--ink)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.btn-main{background:var(--sky);color:#fff;box-shadow:0 3px 0 color-mix(in srgb,var(--sky) 60%,#000)}
+.btn-main:active{transform:translateY(2px);box-shadow:none}
+.btn-soft{background:var(--paper);border:2px solid var(--line)}
+.sound-warn{background:var(--tomato);color:#fff;border-radius:12px;padding:8px 14px;font-size:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.sound-warn button{padding:6px 12px;font-size:14px;background:#fff;color:#1f2a44}
+
+.board{overflow-x:auto;display:flex;flex-direction:column;gap:18px;padding-bottom:4px}
+.block{border-radius:18px;min-width:1200px}
+.block.head{background:var(--tint-head);border:2px solid var(--edge-head)}
+.block.before{border:2px solid var(--edge-before);background:var(--tint-before);--tint:var(--tint-before);--edge:var(--edge-before)}
+.block.school{border:2px solid var(--edge-school);background:var(--tint-school);--tint:var(--tint-school);--edge:var(--edge-school)}
+.block.after{border:2px solid var(--edge-after);background:var(--tint-after);--tint:var(--tint-after);--edge:var(--edge-after)}
+table{border-collapse:separate;border-spacing:5px;width:100%;table-layout:fixed;padding:5px}
+col.hcol{width:92px}
+.head th{font-family:var(--display);font-weight:400;font-size:18px;padding:8px 4px;border-radius:10px}
+.head th.today{background:var(--sun);color:#1f2a44}
+.sec{font-family:var(--display);font-weight:400;font-size:22px;padding:12px 14px 0;margin:0}
+.hour{padding:0}
+.hour button{width:100%;min-height:74px;background:transparent;padding:6px 4px;border-radius:10px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;line-height:1.35}
+.hour button b{display:block;color:var(--ink);font-size:14px}
+.hour button:hover{background:color-mix(in srgb,var(--paper) 60%,transparent)}
+.hour .addt{color:var(--sky)}
+td.cellwrap{padding:0;height:74px;position:relative}
+.cell{width:100%;height:100%;min-height:74px;border-radius:12px;background:var(--cube);border:2px solid var(--cube-line);padding:6px;
+  display:flex;flex-direction:column;align-items:stretch;justify-content:center;gap:2px;text-align:center;font-weight:400}
+.cell:hover{border-color:var(--sky)}
+.cell{position:relative}
+.dname{position:absolute;top:4px;inset-inline-start:8px;font-size:10px;line-height:1;color:var(--muted);opacity:.85;pointer-events:none}
+.minusbar{position:absolute;top:6px;inset-inline-end:6px;width:30px;height:30px;padding:0;border-radius:50%;background:var(--tint);border:2px solid var(--edge);display:flex;align-items:center;justify-content:center}
+.minusbar::before{content:"";width:14px;height:4px;border-radius:2px;background:color-mix(in srgb,var(--edge) 40%,var(--ink))}
+.minusbar:hover{background:var(--edge)}
+.hourbox{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;min-height:74px;padding:6px 4px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;line-height:1.35}
+.hourbox b{display:block;color:var(--ink);font-size:14px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;padding:0 10px 8px 10px;padding-inline-start:102px}
+.daychip{font-size:13px;padding:3px 12px;border-radius:999px;background:var(--paper);border:1.5px solid var(--line)}
+.daychip.is-today{border-color:var(--sun)}
+.daychip.on{background:var(--pink);color:var(--on-pink);border-color:var(--pink)}
+.dayview{display:flex;flex-direction:column;gap:14px;min-width:0}
+.dv-title{font-family:var(--display);font-weight:400;font-size:clamp(34px,8vw,56px);margin:0}
+.dv-today{font-family:var(--body);font-size:16px;background:var(--sun);color:#1f2a44;border-radius:10px;padding:2px 10px;vertical-align:middle}
+.dv-sec{min-width:0}
+.dv-list{display:flex;flex-direction:column;gap:8px;padding:10px 14px 14px}
+.dv-item{display:grid;grid-template-columns:130px 1fr;gap:4px 14px;align-items:center;text-align:start;background:var(--cube);border:2px solid var(--edge);border-radius:14px;padding:12px 16px;font-weight:400}
+.dv-wrap{position:relative}
+.dv-wrap .dv-item{width:100%;min-height:64px}
+.dv-wrap .minusbar{top:50%;inset-inline-end:12px;transform:translateY(-50%)}
+.dv-item.full{background:color-mix(in srgb,var(--c) 22%,var(--cube));border-color:color-mix(in srgb,var(--c) 70%,transparent)}
+.dv-time{font-variant-numeric:tabular-nums;color:var(--muted);font-size:18px}
+.dv-name{font-size:26px;font-weight:700;overflow-wrap:anywhere}
+.dv-empty{color:var(--muted);font-weight:400;font-size:20px}
+.dv-desc{grid-column:2;color:var(--muted);font-size:16px}
+.dv-item .bell{grid-column:2;justify-self:start}
+@media (max-width:520px){.chips{padding-inline-start:10px}.dv-item{grid-template-columns:1fr}.dv-desc,.dv-item .bell{grid-column:1}}
+.cell.kill{border:2px solid var(--edge);background:color-mix(in srgb,var(--edge) 35%,var(--tint));color:color-mix(in srgb,var(--edge) 40%,var(--ink));font-size:44px;font-weight:700;line-height:1;align-items:center}
+.cell.kill:hover{background:var(--edge)}
+#delBtn.on{background:var(--tomato);color:#fff;border-color:var(--tomato)}
+.del-note{background:var(--tomato);color:#fff;border-radius:12px;padding:8px 14px;font-size:14px}
+.chat-row .btn-soft{white-space:nowrap}
+.restore{width:100%;height:100%;min-height:74px;background:transparent;border-radius:12px;color:var(--muted);font-size:20px;opacity:.45}
+.restore:hover,.restore:focus-visible{opacity:1;background:color-mix(in srgb,var(--paper) 50%,transparent)}
+.cell.full{border-style:solid;background:color-mix(in srgb,var(--c) 22%,var(--cube));border-color:color-mix(in srgb,var(--c) 70%,transparent)}
+.cell .n{font-weight:700;font-size:15px;overflow-wrap:anywhere;line-height:1.2}
+.cell .d{font-size:12px;color:var(--muted);overflow-wrap:anywhere;line-height:1.2;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cell .tm,.cell .by{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.bell{align-self:center;font-size:11px;background:var(--ink);color:var(--paper);border-radius:7px;padding:0 6px;font-variant-numeric:tabular-nums}
+.addrow{padding:0 10px 8px;display:flex;flex-wrap:wrap;gap:8px}
+.addrow button{background:var(--paper);border:2px solid var(--edge);color:var(--ink);font-size:15px;padding:6px 14px;border-radius:999px}
+.addrow button:hover{background:var(--edge)}
+.note{font-size:13px;color:var(--muted);margin:0;line-height:1.5}
+
+.panel{background:var(--paper);border:2px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.panel h2{font-family:var(--display);font-weight:400;font-size:22px;margin:0}
+.msgs{display:flex;flex-direction:column;gap:8px;max-height:320px;overflow-y:auto}
+.msg{max-width:85%;padding:8px 12px;border-radius:14px;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere}
+.msg.me{align-self:flex-start;background:var(--sky);color:#fff}
+.msg.bot{align-self:flex-end;background:var(--tint-school);border:2px solid var(--line)}
+.asks{display:flex;flex-wrap:wrap;gap:6px}
+.ask{font-size:14px;padding:6px 12px;border-radius:999px;background:var(--pink-soft);border:1.5px solid var(--pink-edge);color:var(--ink)}
+.ask:hover{background:var(--pink)}
+.chat-row{display:flex;gap:8px;align-items:flex-end}
+.chat-row textarea{flex:1;min-width:0}
+.chat-opts{display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-size:14px;color:var(--muted)}
+.chat-opts label{flex-direction:row;align-items:center;gap:6px}
+.chat-opts input{width:auto}
+.btn-big{font-family:var(--display);font-weight:400;font-size:32px;padding:20px;border-radius:20px;width:100%;background:linear-gradient(135deg,var(--pink),var(--baby-blue));color:var(--on-pink);box-shadow:0 4px 0 var(--pink-edge)}
+.btn-big:active{transform:translateY(3px);box-shadow:0 1px 0 var(--pink-edge)}
+.panel.lav{background:var(--tint-chat);border-color:var(--edge-chat)}
+.panel.pinkish{background:var(--invite-grad);border-color:var(--pink-edge)}
+.inv-form{display:flex;flex-direction:column;gap:10px}
+input.bad{border-color:var(--pink-ink);box-shadow:0 0 0 3px var(--pink)}
+.big-err{background:var(--paper);border:2px solid var(--pink-edge);color:var(--pink-ink);border-radius:12px;padding:10px 14px;font-size:15px;font-weight:500}
+.inv-card{background:var(--paper);border:3px dashed var(--pink-edge);border-radius:20px;padding:18px;text-align:center;display:flex;flex-direction:column;gap:6px}
+.inv-kicker{font-size:14px;letter-spacing:.08em;color:var(--pink-ink)}
+.inv-title{font-family:var(--display);font-size:28px;line-height:1.1}
+.inv-text{margin:0;color:var(--muted);line-height:1.5;overflow-wrap:anywhere}
+.inv-links{display:flex;flex-direction:column;gap:10px}
+.inv-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--paper);border-radius:14px;padding:10px}
+.inv-to{flex:1 1 100%;font-weight:500;font-variant-numeric:tabular-nums}
+.inv-row a.wa{flex:1 1 140px}
+.invite{display:flex;flex-direction:column;gap:10px}
+a.wa{display:block;text-align:center;text-decoration:none;border-radius:14px;padding:12px 16px;font-weight:500}
+.invite-msg{background:var(--bg);border:2px dashed var(--line);border-radius:12px;padding:10px 12px;font-size:14px;line-height:1.5;overflow-wrap:anywhere;user-select:all}
+.steps{margin:0;padding-inline-start:20px;display:flex;flex-direction:column;gap:6px;line-height:1.5}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.cols>*{min-width:0}
+
+dialog{border:none;border-radius:22px;padding:0;background:var(--paper);color:var(--ink);width:min(460px,calc(100% - 32px));max-height:calc(100% - 32px)}
+dialog::backdrop{background:rgba(15,20,35,.55)}
+form{display:flex;flex-direction:column;gap:12px;padding:20px}
+form h3{font-family:var(--display);font-weight:400;font-size:24px;margin:0}
+label{display:flex;flex-direction:column;gap:4px;font-size:14px;color:var(--muted)}
+input,select,textarea{font-family:var(--body);font-size:16px;padding:9px 10px;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--ink);width:100%}
+textarea{min-height:56px;resize:vertical}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.alarm-box{border:2px solid var(--line);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.switch{flex-direction:row;align-items:center;gap:10px;color:var(--ink);font-size:16px;font-weight:500}
+.switch input{width:22px;height:22px}
+.form-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between}
+.btn-del{background:transparent;color:var(--tomato);border:2px solid var(--tomato)}
+.swatch{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:middle;margin-inline-start:6px}
+.err{color:var(--tomato);font-size:14px;margin:0}
+
+.alarm-list{display:flex;flex-direction:column;gap:8px;max-height:360px;overflow-y:auto}
+.al{display:flex;align-items:center;gap:8px;padding:10px;border-radius:12px;border:2px solid var(--line);background:var(--paper)}
+.al.paused{opacity:.6;border-style:dashed}
+.al-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;font-variant-numeric:tabular-nums}
+.al-info span{font-size:14px;color:var(--muted)}
+.al-state{color:var(--pink-ink)!important;font-weight:500}
+.al-btn{width:36px;height:36px;padding:0;border-radius:50%;font-size:22px;font-weight:700;line-height:1;background:var(--tint-school);border:2px solid var(--edge-school)}
+.al-del{padding:6px 12px;font-size:14px;background:transparent;border:2px solid var(--pink-edge);color:var(--pink-ink)}
+.bell.off{background:var(--muted)}
+.tone-list{display:flex;flex-direction:column;gap:6px;max-height:300px;overflow-y:auto}
+.tone{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;border:2px solid var(--line);background:var(--paper)}
+.tone.chosen{border-color:var(--pink-edge);background:var(--pink-soft)}
+.tone-name{flex:1;min-width:0;font-weight:500;overflow-wrap:anywhere;display:flex;flex-direction:column;gap:2px}
+.tone-desc{font-weight:400;font-size:13px;color:var(--muted)}
+.tone button{padding:6px 12px;font-size:14px}
+.tone-up{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.chorus{display:flex;flex-direction:column;gap:6px;width:100%;background:var(--pink-soft);border:2px solid var(--pink-edge);border-radius:12px;padding:10px}
+.chorus-val{font-variant-numeric:tabular-nums;color:var(--ink);font-weight:500}
+.chorus input{padding:0;accent-color:var(--pink-ink)}
+label.upl{display:inline-flex;flex-direction:row;color:var(--ink);font-size:16px;font-weight:500;cursor:pointer;padding:10px 16px;border-radius:14px}
+.langpick{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--bg) 70%,transparent);backdrop-filter:blur(3px);
+  padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.langpick[hidden]{display:none}
+.lp-card{background:var(--paper);border:2px solid var(--edge-chat);border-radius:24px;padding:24px;width:min(440px,100%);display:flex;flex-direction:column;gap:16px;text-align:center;box-shadow:0 8px 0 var(--edge-chat)}
+.lp-card h2{font-family:var(--display);font-weight:400;font-size:30px;margin:0}
+.lp-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.lp-list button{font-size:18px;padding:14px 10px;border-radius:16px;border:2px solid var(--line);background:var(--paper)}
+.lp-list button:nth-child(6n+1){background:var(--tint-head);border-color:var(--edge-head)}
+.lp-list button:nth-child(6n+2){background:var(--tint-before);border-color:var(--edge-before)}
+.lp-list button:nth-child(6n+3){background:var(--tint-school);border-color:var(--edge-school)}
+.lp-list button:nth-child(6n+4){background:var(--tint-after);border-color:var(--edge-after)}
+.lp-list button:nth-child(6n+5){background:var(--tint-chat);border-color:var(--edge-chat)}
+.lp-list button:nth-child(6n+6){background:var(--invite-grad);border-color:var(--pink-edge)}
+.lp-card input{font-size:17px;padding:10px 14px;border-radius:14px;border:2px solid var(--edge-chat);background:var(--bg);color:var(--ink);width:100%}
+.lp-msg{margin:0;color:var(--muted);font-size:15px;line-height:1.5}
+.lp-list{max-height:52vh;overflow-y:auto;padding:4px}
+.lp-list button small{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+.lp-list button.on{outline:3px solid var(--ink);outline-offset:2px}
+.ring{position:fixed;inset:0;z-index:50;background:color-mix(in srgb,var(--sun) 92%,transparent);display:flex;align-items:center;justify-content:center;
+  padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.ring-card{background:#fff;color:#1f2a44;border-radius:26px;padding:28px;max-width:420px;width:100%;text-align:center;display:flex;flex-direction:column;gap:12px;box-shadow:0 10px 0 #1f2a44}
+.ring-card .big{font-family:var(--display);font-size:34px;line-height:1.15}
+.clock{width:84px;height:84px;margin:0 auto;border-radius:50%;background:var(--tomato);position:relative;animation:shake .4s infinite}
+.clock::before,.clock::after{content:"";position:absolute;background:#fff;border-radius:3px;left:50%;top:50%;transform-origin:bottom center}
+.clock::before{width:6px;height:28px;margin:-28px 0 0 -3px}
+.clock::after{width:6px;height:20px;margin:-20px 0 0 -3px;transform:rotate(90deg)}
+@keyframes shake{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+@media (prefers-reduced-motion:reduce){.clock{animation:none}}
+</style>
+
+<div class="wrap" dir="rtl" lang="he">
+  <header>
+    <div>
+      <h1 class="title" dir="ltr" lang="en" aria-label="my WB">
+        <span class="tw t1">my</span><span class="tw t2">WB</span>
+      </h1>
+      <div class="week-dots" id="weekDots" aria-hidden="true"><i>א</i><i>ב</i><i>ג</i><i>ד</i><i>ה</i><i>ו</i><i>ש</i></div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn-soft no-tr" id="langBtn" type="button" lang="en">Language</button>
+      <button class="btn-soft" id="alarmsBtn" type="button">כל הצלצולים שלי</button>
+      <button class="btn-soft" id="testBtn" type="button">בדיקת צלצול</button>
+    </div>
+  </header>
+
+
+  <div class="board" id="board"></div>
+  <p class="note">לוחצים על קובייה וכותבים בה מה יש ומתי. המינוס הקטן בפינה מוחק קובייה ריקה. אותו מקצוע מקבל תמיד אותו צבע.</p>
+
+  <section class="panel lav">
+    <h2>טיפים</h2>
+    <p class="note" style="font-size:15px;color:var(--ink)">הלוח נשמר רק בטלפון או במחשב הזה. אף אחד אחר לא רואה אותו.</p>
+    <p class="note" style="font-size:15px;color:var(--ink)">כדי שהלוח ייפתח כמו אפליקציה ולא יימחק: באייפון לוחצים על כפתור השיתוף ואז על "הוספה למסך הבית". באנדרואיד לוחצים על שלוש הנקודות ואז על "הוספה למסך הבית".</p>
+    <p class="note">אם מוחקים את ההיסטוריה או את נתוני הדפדפן, גם הלוח נמחק.</p>
+  </section>
+
+  <p class="note">השעון המעורר מצלצל כשהלוח פתוח על המסך.</p>
+</div>
+
+<dialog id="dlg">
+  <form id="frm" method="dialog" dir="rtl" lang="he">
+    <h3 id="dlgTitle"></h3>
+    <label>מה יש כאן? <span id="swatchHint"></span>
+      <input id="fName" maxlength="40" list="names" placeholder="למשל: מתמטיקה">
+    </label>
+    <datalist id="names"></datalist>
+    <label>מה עושים? <textarea id="fDesc" maxlength="160" placeholder="למשל: להביא מחברת, מבחן"></textarea></label>
+    <div class="row2">
+      <label>מתחיל ב־ <input id="fStart" type="time"></label>
+      <label>נגמר ב־ <input id="fEnd" type="time"></label>
+    </div>
+    <div class="alarm-box">
+      <label class="switch"><input type="checkbox" id="fAlarm"> שעון מעורר לקובייה הזו</label>
+      <label id="beforeWrap">מתי לצלצל?
+        <select id="fBefore">
+          <option value="0">בדיוק בזמן</option>
+          <option value="5">5 דקות לפני</option>
+          <option value="10">10 דקות לפני</option>
+          <option value="15" selected>רבע שעה לפני</option>
+          <option value="30">חצי שעה לפני</option>
+          <option value="60">שעה לפני</option>
+        </select>
+      </label>
+      <p class="note">השעון יצלצל כל שבוע עד שמורידים את הסימון.</p>
+    </div>
+    <p class="err" id="fErr" hidden>כדי שהשעון יצלצל, צריך לכתוב מתי זה מתחיל.</p>
+    <div class="form-actions">
+      <div style="display:flex;gap:8px">
+        <button class="btn-main" type="submit">שמירה</button>
+        <button class="btn-soft" type="button" id="cancelBtn">ביטול</button>
+      </div>
+      <button class="btn-del" type="button" id="clearCellBtn">לרוקן קובייה</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="rowDlg">
+  <form id="rowFrm" method="dialog" dir="rtl" lang="he">
+    <h3 id="rTitle">מתי זה?</h3>
+    <div class="row2">
+      <label>מתחיל ב־ <input id="rStart" type="time"></label>
+      <label>נגמר ב־ <input id="rEnd" type="time"></label>
+    </div>
+    <div class="form-actions">
+      <div style="display:flex;gap:8px">
+        <button class="btn-main" type="submit">שמירה</button>
+        <button class="btn-soft" type="button" id="rCancel">ביטול</button>
+      </div>
+      <button class="btn-del" type="button" id="rDel">למחוק את השורה</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="alarmsDlg">
+  <form method="dialog" dir="rtl" lang="he" onsubmit="return false">
+    <h3>כל הצלצולים שלי</h3>
+    <div id="alarmList" class="alarm-list"></div>
+    <p class="note">מינוס עוצר את הצלצול בינתיים, ופלוס מחזיר אותו. "למחוק" מוחק את הצלצול לגמרי.</p>
+    <div class="form-actions"><button class="btn-soft" type="button" id="alarmsClose">סגירה</button></div>
+  </form>
+</dialog>
+
+<dialog id="toneDlg">
+  <form method="dialog" dir="rtl" lang="he" onsubmit="return false">
+    <h3>בחירת צלצול</h3>
+    <p class="note" id="toneNow"></p>
+    <div id="toneList" class="tone-list"></div>
+    <div class="form-actions">
+      <button class="btn-main" type="button" id="toneTest">לשמוע את השעון המעורר</button>
+      <button class="btn-soft" type="button" id="toneClose">סגירה</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="langpick no-tr" id="langPick" hidden role="dialog" aria-modal="true" aria-labelledby="lpTitle">
+  <div class="lp-card">
+    <h2 id="lpTitle" lang="en" dir="ltr">Which language?</h2>
+    <input id="lpSearch" type="search" autocomplete="off" dir="auto" placeholder="Search for your language…" aria-label="Search for your language">
+    <div class="lp-list" id="lpList"></div>
+    <p class="lp-msg" id="lpMsg" dir="auto" hidden></p>
+  </div>
+</div>
+
+<div class="ring" id="ring" hidden role="alertdialog" aria-labelledby="ringName">
+  <div class="ring-card">
+    <div class="clock" aria-hidden="true"></div>
+    <div style="font-size:15px">שעון מעורר!</div>
+    <div class="big" id="ringName"></div>
+    <div id="ringWhen"></div>
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+      <button class="btn-main" type="button" id="stopBtn">הבנתי, לכבות</button>
+      <button type="button" id="snoozeBtn" style="background:#fff;color:#1f2a44;border:2px solid #cfdbe8">עוד 5 דקות</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// diagnostics: if anything breaks on a device, show the error on screen instead of failing silently
+(function(){function show(m){try{var d=document.getElementById("jsErr");if(!d){d=document.createElement("pre");d.id="jsErr";d.style.cssText="position:fixed;left:8px;right:8px;bottom:8px;z-index:99;background:#ff6b57;color:#fff;padding:10px;border-radius:10px;font:12px monospace;white-space:pre-wrap;direction:ltr;max-height:40vh;overflow:auto";document.body.appendChild(d)}d.textContent+=m+"\n"}catch(e){}}
+window.addEventListener("error",function(e){show("JS error: "+e.message+(e.lineno?" (line "+e.lineno+")":""))});
+window.addEventListener("unhandledrejection",function(e){show("Promise error: "+(e.reason&&(e.reason.message||e.reason.code)||e.reason))});
+setTimeout(function(){if(!document.querySelector("#board .block,#board .dayview"))show("Board did not render. UA="+navigator.userAgent)},4000);})();
+</script>
+<script>
+const HAS_CLAUDE=false;
+let DAYS=["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"];
+const NCOL=10, LKEY="weekly-board-v3", OLDKEY="weekly-board-v2";
+let SECTIONS={before:"חוגים לפני בית ספר",school:"בית ספר",after:"חוגים אחרי בית ספר"};
+const ORDER=["before","school","after"];
+const $=id=>document.getElementById(id);
+// ---------- languages ----------
+const LANGS=[{"code": "he", "name": "עברית", "dir": "rtl", "speech": "he-IL", "en": "Hebrew"}, {"code": "en", "name": "English", "dir": "ltr", "speech": "en-US", "en": "English"}, {"code": "es", "name": "Español", "dir": "ltr", "speech": "es-ES", "en": "Spanish"}, {"code": "fr", "name": "Français", "dir": "ltr", "speech": "fr-FR", "en": "French"}, {"code": "ru", "name": "Русский", "dir": "ltr", "speech": "ru-RU", "en": "Russian"}, {"code": "ar", "name": "العربية", "dir": "rtl", "speech": "ar-SA", "en": "Arabic"}];
+const TR={"לוחצים על קובייה וכותבים בה מה יש ומתי. המינוס הקטן בפינה מוחק קובייה ריקה. אותו מקצוע מקבל תמיד אותו צבע.":{"en": "Tap a box and write what's there and when. The small minus in the corner deletes an empty box. The same subject always gets the same color.", "es": "Toca un cuadro y escribe qué hay y cuándo. El pequeño menos de la esquina borra un cuadro vacío. La misma asignatura siempre tiene el mismo color.", "fr": "Touche une case et écris ce qu'il y a et quand. Le petit moins dans le coin supprime une case vide. La même matière a toujours la même couleur.", "ru": "Нажми на клетку и напиши, что там и когда. Маленький минус в углу удаляет пустую клетку. Один и тот же предмет всегда одного цвета.", "ar": "اضغط على مربع واكتب ما فيه ومتى. علامة الناقص الصغيرة في الزاوية تحذف مربعًا فارغًا. المادة نفسها لها دائمًا اللون نفسه."}, "טיפים":{"en": "Tips", "es": "Consejos", "fr": "Astuces", "ru": "Советы", "ar": "نصائح"}, "הלוח נשמר רק בטלפון או במחשב הזה. אף אחד אחר לא רואה אותו.":{"en": "The board is saved only on this phone or computer. Nobody else can see it.", "es": "El tablero se guarda solo en este móvil u ordenador. Nadie más puede verlo.", "fr": "Le tableau est enregistré seulement sur ce téléphone ou cet ordinateur. Personne d'autre ne le voit.", "ru": "Таблица сохраняется только на этом телефоне или компьютере. Больше её никто не видит.", "ar": "يُحفظ اللوح على هذا الهاتف أو الحاسوب فقط. لا أحد غيرك يراه."}, "כדי שהלוח ייפתח כמו אפליקציה ולא יימחק: באייפון לוחצים על כפתור השיתוף ואז על \"הוספה למסך הבית\". באנדרואיד לוחצים על שלוש הנקודות ואז על \"הוספה למסך הבית\".":{"en": "To open the board like an app and keep it from being erased: on iPhone, tap the Share button and then “Add to Home Screen”. On Android, tap the three dots and then “Add to Home screen”.", "es": "Para abrir el tablero como una app y que no se borre: en iPhone, toca el botón Compartir y luego «Añadir a pantalla de inicio». En Android, toca los tres puntos y luego «Añadir a pantalla de inicio».", "fr": "Pour ouvrir le tableau comme une appli et qu'il ne s'efface pas : sur iPhone, touche le bouton Partager puis « Sur l'écran d'accueil ». Sur Android, touche les trois points puis « Ajouter à l'écran d'accueil ».", "ru": "Чтобы таблица открывалась как приложение и не стиралась: на iPhone нажми «Поделиться», а потом «На экран „Домой“». На Android нажми три точки, а потом «Добавить на главный экран».", "ar": "لكي يُفتح اللوح كتطبيق ولا يُحذف: على آيفون اضغط زر المشاركة ثم «إضافة إلى الشاشة الرئيسية». على أندرويد اضغط النقاط الثلاث ثم «إضافة إلى الشاشة الرئيسية»."}, "אם מוחקים את ההיסטוריה או את נתוני הדפדפן, גם הלוח נמחק.":{"en": "If you delete the history or browser data, the board is deleted too.", "es": "Si borras el historial o los datos del navegador, el tablero también se borra.", "fr": "Si tu effaces l'historique ou les données du navigateur, le tableau est effacé aussi.", "ru": "Если удалить историю или данные браузера, таблица тоже удалится.", "ar": "إذا حذفت السجل أو بيانات المتصفح، يُحذف اللوح أيضًا."}, "כל הצלצולים שלי": {"en": "My alarms", "es": "Mis alarmas", "fr": "Mes alarmes", "ru": "Мои будильники", "ar": "منبهاتي"}, "בדיקת צלצול": {"en": "Ringtones", "es": "Tonos", "fr": "Sonneries", "ru": "Мелодии", "ar": "النغمات"}, "את השעות כותבים בתוך הקובייה, או מבקשים ב\"להוסיף ללוח שלי\". המינוס הקטן בפינה מוחק קובייה ריקה. אותו מקצוע מקבל תמיד אותו צבע.": {"en": "Write the times inside the box, or ask in “Add to my board”. The small minus in the corner deletes an empty box. The same subject always gets the same color.", "es": "Escribe las horas dentro del cuadro, o pídelo en «Añadir a mi tablero». El pequeño menos de la esquina borra un cuadro vacío. La misma asignatura siempre tiene el mismo color.", "fr": "Écris les heures dans la case, ou demande-le dans « Ajouter à mon tableau ». Le petit moins dans le coin supprime une case vide. La même matière a toujours la même couleur.", "ru": "Время пиши внутри клетки или попроси в «Добавить в мою таблицу». Маленький минус в углу удаляет пустую клетку. Один и тот же предмет всегда одного цвета.", "ar": "اكتب الأوقات داخل المربع، أو اطلبها في «أضف إلى لوحي». علامة الناقص الصغيرة في الزاوية تحذف مربعًا فارغًا. المادة نفسها لها دائمًا اللون نفسه."}, "להוסיף ללוח שלי": {"en": "Add to my board", "es": "Añadir a mi tablero", "fr": "Ajouter à mon tableau", "ru": "Добавить в мою таблицу", "ar": "أضف إلى لوحي"}, "כתבי או הקליטי מה לשנות, והלוח יעשה את זה ויענה לך.": {"en": "Type or record what to change, and the board will do it and answer you.", "es": "Escribe o graba lo que quieres cambiar, y el tablero lo hará y te responderá.", "fr": "Écris ou enregistre ce qu'il faut changer, et le tableau le fera et te répondra.", "ru": "Напиши или запиши голосом, что изменить, и таблица сделает это и ответит тебе.", "ar": "اكتب أو سجّل ما تريد تغييره، وسيقوم اللوح بذلك ويجيبك."}, "היי! אפשר לשאול אותי כל שאלה על הלוח, למשל \"היי, מה יש לי ביום רביעי?\", או לבקש \"תוסיף מתמטיקה ביום ראשון בשעה הראשונה\".": {"en": "Hi! You can ask me anything about the board, like “Hey, what do I have on Wednesday?”, or ask “Add math on Sunday, first period”.", "es": "¡Hola! Puedes preguntarme lo que quieras sobre el tablero, por ejemplo «Oye, ¿qué tengo el miércoles?», o pedir «Añade matemáticas el domingo a primera hora».", "fr": "Salut ! Tu peux me poser n'importe quelle question sur le tableau, par exemple « Dis, qu'est-ce que j'ai mercredi ? », ou demander « Ajoute maths dimanche en première heure ».", "ru": "Привет! Можешь спросить меня что угодно о таблице, например «Эй, что у меня в среду?», или попросить «Добавь математику в воскресенье первым уроком».", "ar": "مرحبًا! يمكنك أن تسألني أي سؤال عن اللوح، مثل «ماذا لدي يوم الأربعاء؟»، أو أن تطلب «أضف الرياضيات يوم الأحد في الحصة الأولى»."}, "הקלטה": {"en": "Record", "es": "Grabar", "fr": "Enregistrer", "ru": "Запись", "ar": "تسجيل"}, "שליחה": {"en": "Send", "es": "Enviar", "fr": "Envoyer", "ru": "Отправить", "ar": "إرسال"}, "ההקלטה לא עובדת כאן. במקום זה, לחצי על תיבת הכתיבה ואז על המיקרופון שבמקלדת, ודברי. המילים ייכתבו לבד.": {"en": "Recording doesn't work here. Instead, tap the text box, then the microphone on your keyboard, and talk. The words will type themselves.", "es": "La grabación no funciona aquí. En su lugar, toca el cuadro de texto y luego el micrófono del teclado, y habla. Las palabras se escribirán solas.", "fr": "L'enregistrement ne marche pas ici. À la place, touche la zone de texte, puis le micro du clavier, et parle. Les mots s'écriront tout seuls.", "ru": "Запись здесь не работает. Вместо этого нажми на поле ввода, потом на микрофон на клавиатуре, и говори. Слова напишутся сами.", "ar": "التسجيل لا يعمل هنا. بدلًا من ذلك، اضغط على مربع الكتابة ثم على الميكروفون في لوحة المفاتيح وتحدّث. ستُكتب الكلمات وحدها."}, "להקריא לי את התשובה בקול": {"en": "Read the answer out loud", "es": "Leer la respuesta en voz alta", "fr": "Lire la réponse à voix haute", "ru": "Читать ответ вслух", "ar": "اقرأ لي الإجابة بصوت عالٍ"}, "הזמנה להורים": {"en": "Invite parents", "es": "Invitar a los padres", "fr": "Inviter les parents", "ru": "Пригласить родителей", "ar": "دعوة الوالدين"}, "הורה שמצטרף יכול להוסיף לך דברים ללוח, וזה מופיע אצלך מיד.": {"en": "A parent who joins can add things to your board, and they show up for you right away.", "es": "Un padre o una madre que se una puede añadir cosas a tu tablero, y aparecen enseguida.", "fr": "Un parent qui rejoint peut ajouter des choses à ton tableau, et elles apparaissent tout de suite.", "ru": "Родитель, который присоединится, сможет добавлять дела в твою таблицу, и они сразу появятся у тебя.", "ar": "يمكن لأحد الوالدين الذي ينضم أن يضيف أشياء إلى لوحك، وتظهر لديك فورًا."}, "השם שלך": {"en": "Your name", "es": "Tu nombre", "fr": "Ton prénom", "ru": "Твоё имя", "ar": "اسمك"}, "טלפון של הורה": {"en": "Parent's phone", "es": "Teléfono de un padre o madre", "fr": "Téléphone d'un parent", "ru": "Телефон родителя", "ar": "هاتف أحد الوالدين"}, "טלפון של הורה נוסף (לא חובה)": {"en": "Another parent's phone (optional)", "es": "Teléfono de otro padre o madre (opcional)", "fr": "Téléphone d'un autre parent (facultatif)", "ru": "Телефон второго родителя (необязательно)", "ar": "هاتف الوالد الآخر (اختياري)"}, "להזמין": {"en": "Invite", "es": "Invitar", "fr": "Inviter", "ru": "Пригласить", "ar": "ادعُ"}, "הזמנה": {"en": "Invitation", "es": "Invitación", "fr": "Invitation", "ru": "Приглашение", "ar": "دعوة"}, "ללוח השבועי שלי": {"en": "to my weekly board", "es": "a mi tablero semanal", "fr": "à mon tableau de la semaine", "ru": "в мою недельную таблицу", "ar": "إلى لوحي الأسبوعي"}, "ההזמנה מוכנה! בחרי איך לשלוח, ואז לוחצים \"שליחה\":": {"en": "The invitation is ready! Choose how to send it, then press “Send”:", "es": "¡La invitación está lista! Elige cómo enviarla y luego pulsa «Enviar»:", "fr": "L'invitation est prête ! Choisis comment l'envoyer, puis appuie sur « Envoyer » :", "ru": "Приглашение готово! Выбери, как отправить, и нажми «Отправить»:", "ar": "الدعوة جاهزة! اختر طريقة الإرسال، ثم اضغط «إرسال»:"}, "אם כפתור ההודעות לא נפתח, נסי את וואטסאפ. כדי שההורה יוכל להיכנס, אבא צריך גם ללחוץ על": {"en": "If the messages button doesn't open, try WhatsApp. For the parent to get in, Dad also needs to press", "es": "Si el botón de mensajes no se abre, prueba WhatsApp. Para que el padre o la madre pueda entrar, papá también tiene que pulsar", "fr": "Si le bouton des messages ne s'ouvre pas, essaie WhatsApp. Pour que le parent puisse entrer, papa doit aussi appuyer sur", "ru": "Если кнопка сообщений не открывается, попробуй WhatsApp. Чтобы родитель смог войти, папе нужно ещё нажать", "ar": "إذا لم يُفتح زر الرسائل، جرّب واتساب. لكي يستطيع أحد الوالدين الدخول، يجب على أبي أيضًا أن يضغط على"}, "שיתוף": {"en": "Share", "es": "Compartir", "fr": "Partager", "ru": "Поделиться", "ar": "مشاركة"}, "למעלה ולהוסיף את המייל של ההורה. המספרים לא נשמרים באפליקציה.": {"en": "at the top and add the parent's email. The numbers aren't saved in the app.", "es": "arriba y añadir el correo del padre o la madre. Los números no se guardan en la aplicación.", "fr": "en haut et ajouter l'e-mail du parent. Les numéros ne sont pas enregistrés dans l'appli.", "ru": "наверху и добавить почту родителя. Номера в приложении не сохраняются.", "ar": "في الأعلى ويضيف البريد الإلكتروني للوالد. لا تُحفظ الأرقام في التطبيق."}, "ליד כל דבר שהורה הוסיף, יהיה כתוב מי הוסיף אותו.": {"en": "Next to anything a parent added, it will say who added it.", "es": "Junto a todo lo que añada un padre o una madre, pondrá quién lo añadió.", "fr": "À côté de tout ce qu'un parent a ajouté, il sera écrit qui l'a ajouté.", "ru": "Рядом с каждым делом, которое добавил родитель, будет написано, кто его добавил.", "ar": "بجانب كل شيء أضافه أحد الوالدين، سيُكتب من أضافه."}, "השעון המעורר מצלצל כשהלוח פתוח על המסך.": {"en": "The alarm rings while the board is open on the screen.", "es": "La alarma suena mientras el tablero está abierto en la pantalla.", "fr": "L'alarme sonne quand le tableau est ouvert à l'écran.", "ru": "Будильник звонит, когда таблица открыта на экране.", "ar": "يرن المنبه عندما يكون اللوح مفتوحًا على الشاشة."}, "מה יש כאן?": {"en": "What's here?", "es": "¿Qué hay aquí?", "fr": "Qu'est-ce qu'il y a ici ?", "ru": "Что здесь?", "ar": "ماذا يوجد هنا؟"}, "מה עושים?": {"en": "What do you do there?", "es": "¿Qué se hace?", "fr": "Qu'est-ce qu'on fait ?", "ru": "Что делаем?", "ar": "ماذا نفعل؟"}, "מתחיל ב־": {"en": "Starts at", "es": "Empieza a las", "fr": "Commence à", "ru": "Начало в", "ar": "يبدأ في"}, "נגמר ב־": {"en": "Ends at", "es": "Termina a las", "fr": "Finit à", "ru": "Конец в", "ar": "ينتهي في"}, "שעון מעורר לקובייה הזו": {"en": "Alarm for this box", "es": "Alarma para este cuadro", "fr": "Alarme pour cette case", "ru": "Будильник для этой клетки", "ar": "منبه لهذا المربع"}, "מתי לצלצל?": {"en": "When should it ring?", "es": "¿Cuándo debe sonar?", "fr": "Quand doit-elle sonner ?", "ru": "Когда звонить?", "ar": "متى يرن؟"}, "בדיוק בזמן": {"en": "Right on time", "es": "Justo a la hora", "fr": "Pile à l'heure", "ru": "Ровно вовремя", "ar": "في الوقت تمامًا"}, "5 דקות לפני": {"en": "5 minutes before", "es": "5 minutos antes", "fr": "5 minutes avant", "ru": "За 5 минут", "ar": "قبل 5 دقائق"}, "10 דקות לפני": {"en": "10 minutes before", "es": "10 minutos antes", "fr": "10 minutes avant", "ru": "За 10 минут", "ar": "قبل 10 دقائق"}, "רבע שעה לפני": {"en": "15 minutes before", "es": "15 minutos antes", "fr": "15 minutes avant", "ru": "За 15 минут", "ar": "قبل ربع ساعة"}, "חצי שעה לפני": {"en": "30 minutes before", "es": "30 minutos antes", "fr": "30 minutes avant", "ru": "За полчаса", "ar": "قبل نصف ساعة"}, "שעה לפני": {"en": "1 hour before", "es": "1 hora antes", "fr": "1 heure avant", "ru": "За час", "ar": "قبل ساعة"}, "השעון יצלצל כל שבוע עד שמורידים את הסימון.": {"en": "The alarm will ring every week until you uncheck it.", "es": "La alarma sonará cada semana hasta que la desmarques.", "fr": "L'alarme sonnera chaque semaine jusqu'à ce que tu la décoches.", "ru": "Будильник будет звонить каждую неделю, пока не снимешь галочку.", "ar": "سيرن المنبه كل أسبوع حتى تُلغي التحديد."}, "כדי שהשעון יצלצל, צריך לכתוב מתי זה מתחיל.": {"en": "For the alarm to ring, write when it starts.", "es": "Para que la alarma suene, escribe cuándo empieza.", "fr": "Pour que l'alarme sonne, écris quand ça commence.", "ru": "Чтобы будильник зазвонил, напиши, когда это начинается.", "ar": "لكي يرن المنبه، اكتب متى يبدأ."}, "שמירה": {"en": "Save", "es": "Guardar", "fr": "Enregistrer", "ru": "Сохранить", "ar": "حفظ"}, "ביטול": {"en": "Cancel", "es": "Cancelar", "fr": "Annuler", "ru": "Отмена", "ar": "إلغاء"}, "לרוקן קובייה": {"en": "Empty this box", "es": "Vaciar el cuadro", "fr": "Vider la case", "ru": "Очистить клетку", "ar": "أفرغ المربع"}, "מתי זה?": {"en": "When is it?", "es": "¿Cuándo es?", "fr": "C'est quand ?", "ru": "Когда это?", "ar": "متى هذا؟"}, "למחוק את השורה": {"en": "Delete this row", "es": "Borrar la fila", "fr": "Supprimer la ligne", "ru": "Удалить строку", "ar": "احذف الصف"}, "מינוס עוצר את הצלצול בינתיים, ופלוס מחזיר אותו. \"למחוק\" מוחק את הצלצול לגמרי.": {"en": "Minus pauses the alarm for now, and plus brings it back. “Delete” removes the alarm completely.", "es": "El menos pausa la alarma por ahora y el más la devuelve. «Borrar» la elimina del todo.", "fr": "Le moins met l'alarme en pause, et le plus la remet. « Supprimer » l'efface complètement.", "ru": "Минус ставит будильник на паузу, а плюс возвращает его. «Удалить» удаляет будильник совсем.", "ar": "علامة الناقص توقف المنبه مؤقتًا، وعلامة الزائد تعيده. «احذف» يحذف المنبه تمامًا."}, "סגירה": {"en": "Close", "es": "Cerrar", "fr": "Fermer", "ru": "Закрыть", "ar": "إغلاق"}, "בחירת צלצול": {"en": "Choose a ringtone", "es": "Elegir un tono", "fr": "Choisir une sonnerie", "ru": "Выбрать мелодию", "ar": "اختر نغمة"}, "לשמוע את השעון המעורר": {"en": "Hear the alarm", "es": "Escuchar la alarma", "fr": "Écouter l'alarme", "ru": "Послушать будильник", "ar": "استمع إلى المنبه"}, "שעון מעורר!": {"en": "Alarm!", "es": "¡Alarma!", "fr": "Alarme !", "ru": "Будильник!", "ar": "المنبه!"}, "הבנתי, לכבות": {"en": "Got it, turn it off", "es": "Vale, apagar", "fr": "Compris, éteindre", "ru": "Поняла, выключить", "ar": "فهمت، أطفئه"}, "עוד 5 דקות": {"en": "5 more minutes", "es": "5 minutos más", "fr": "Encore 5 minutes", "ru": "Ещё 5 минут", "ar": "5 دقائق أخرى"}, "כתבי כאן, או לחצי על המיקרופון במקלדת ודברי": {"en": "Type here, or tap the keyboard microphone and talk", "es": "Escribe aquí, o toca el micrófono del teclado y habla", "fr": "Écris ici, ou touche le micro du clavier et parle", "ru": "Пиши здесь или нажми микрофон на клавиатуре и говори", "ar": "اكتب هنا، أو اضغط على ميكروفون لوحة المفاتيح وتحدث"}, "למשל: דני": {"en": "e.g. Dani", "es": "p. ej. Dani", "fr": "ex. : Dani", "ru": "например: Дани", "ar": "مثلًا: داني"}, "ההזמנה": {"en": "The invitation", "es": "La invitación", "fr": "L'invitation", "ru": "Приглашение", "ar": "الدعوة"}, "למשל: מתמטיקה": {"en": "e.g. Math", "es": "p. ej. Matemáticas", "fr": "ex. : Maths", "ru": "например: Математика", "ar": "مثلًا: الرياضيات"}, "למשל: להביא מחברת, מבחן": {"en": "e.g. bring a notebook, test", "es": "p. ej. traer cuaderno, examen", "fr": "ex. : apporter un cahier, contrôle", "ru": "например: взять тетрадь, контрольная", "ar": "مثلًا: إحضار دفتر، امتحان"}, "הלוח שמור ומשותף.": {"en": "The board is saved and shared.", "es": "El tablero está guardado y compartido.", "fr": "Le tableau est enregistré et partagé.", "ru": "Таблица сохранена и доступна.", "ar": "تم حفظ اللوح ومشاركته."}, "אפשר לראות את הלוח, אבל אין הרשאה לשנות אותו.": {"en": "You can see the board, but you can't change it.", "es": "Puedes ver el tablero, pero no cambiarlo.", "fr": "Tu peux voir le tableau, mais pas le modifier.", "ru": "Таблицу можно смотреть, но нельзя менять.", "ar": "يمكنك رؤية اللوح، لكن لا يمكنك تغييره."}, "לא הצלחתי לשמור עכשיו. ננסה שוב בשינוי הבא.": {"en": "Couldn't save right now. It will try again on the next change.", "es": "No se pudo guardar ahora. Lo intentará de nuevo con el próximo cambio.", "fr": "Impossible d'enregistrer pour l'instant. Nouvel essai au prochain changement.", "ru": "Сейчас не получилось сохранить. Попробую снова при следующем изменении.", "ar": "لم أتمكن من الحفظ الآن. سأحاول مرة أخرى عند التغيير التالي."}, "כרגע הלוח נשמר רק במכשיר הזה.": {"en": "For now the board is saved only on this device.", "es": "Por ahora el tablero se guarda solo en este dispositivo.", "fr": "Pour l'instant le tableau est enregistré seulement sur cet appareil.", "ru": "Пока таблица сохраняется только на этом устройстве.", "ar": "حاليًا يُحفظ اللوح على هذا الجهاز فقط."}, "החיבור לשיתוף נפל. רענני את הדף.": {"en": "The sharing connection dropped. Refresh the page.", "es": "Se cortó la conexión para compartir. Recarga la página.", "fr": "La connexion de partage a coupé. Recharge la page.", "ru": "Связь для общего доступа пропала. Обнови страницу.", "ar": "انقطع اتصال المشاركة. حدّث الصفحة."}, "שעה {n}": {"en": "Period {n}", "es": "Hora {n}", "fr": "Heure {n}", "ru": "Урок {n}", "ar": "الحصة {n}"}, "חוג {n}": {"en": "Activity {n}", "es": "Actividad {n}", "fr": "Activité {n}", "ru": "Кружок {n}", "ar": "نشاط {n}"}, "כל השבוע": {"en": "Whole week", "es": "Toda la semana", "fr": "Toute la semaine", "ru": "Вся неделя", "ar": "الأسبوع كله"}, "נוסף ע\"י {n}": {"en": "Added by {n}", "es": "Añadido por {n}", "fr": "Ajouté par {n}", "ru": "Добавил(а): {n}", "ar": "أضافه {n}"}, "הורה": {"en": "a parent", "es": "un padre", "fr": "un parent", "ru": "родитель", "ar": "أحد الوالدين"}, "צלצול עצור": {"en": "Alarm paused", "es": "Alarma en pausa", "fr": "Alarme en pause", "ru": "Будильник на паузе", "ar": "المنبه متوقف"}, "צלצול {t}": {"en": "Alarm {t}", "es": "Alarma {t}", "fr": "Alarme {t}", "ru": "Будильник {t}", "ar": "منبه {t}"}, "להחזיר את הקובייה": {"en": "Bring the box back", "es": "Recuperar el cuadro", "fr": "Remettre la case", "ru": "Вернуть клетку", "ar": "أرجع المربع"}, "למחוק את הקובייה": {"en": "Delete the box", "es": "Borrar el cuadro", "fr": "Supprimer la case", "ru": "Удалить клетку", "ar": "احذف المربع"}, "לכתוב בקובייה": {"en": "Write in the box", "es": "Escribir en el cuadro", "fr": "Écrire dans la case", "ru": "Написать в клетке", "ar": "اكتب في المربع"}, "+ עוד שורה": {"en": "+ Add row", "es": "+ Añadir fila", "fr": "+ Ajouter une ligne", "ru": "+ Добавить строку", "ar": "+ أضف صفًا"}, "+ עוד שורה של חוגים": {"en": "+ Add activity row", "es": "+ Añadir fila de actividades", "fr": "+ Ajouter une ligne d'activités", "ru": "+ Добавить строку кружков", "ar": "+ أضف صف أنشطة"}, "− להוריד שורה": {"en": "− Remove row", "es": "− Quitar fila", "fr": "− Enlever une ligne", "ru": "− Убрать строку", "ar": "− احذف صفًا"}, "− להוריד שורה של חוגים": {"en": "− Remove activity row", "es": "− Quitar fila de actividades", "fr": "− Enlever une ligne d'activités", "ru": "− Убрать строку кружков", "ar": "− احذف صف أنشطة"}, "יום {d}": {"en": "{d}", "es": "{d}", "fr": "{d}", "ru": "{d}", "ar": "يوم {d}"}, "היום": {"en": "Today", "es": "Hoy", "fr": "Aujourd'hui", "ru": "Сегодня", "ar": "اليوم"}, "אותו צבע כמו קודם": {"en": "Same color as before", "es": "Mismo color que antes", "fr": "Même couleur qu'avant", "ru": "Тот же цвет, что раньше", "ar": "اللون نفسه كما من قبل"}, "בטוח? יש בקו הזה דברים. ללחוץ שוב": {"en": "Sure? This row has things in it. Tap again", "es": "¿Seguro? Esta fila tiene cosas. Pulsa otra vez", "fr": "Sûr ? Cette ligne contient des choses. Appuie encore", "ru": "Точно? В этой строке есть дела. Нажми ещё раз", "ar": "متأكد؟ في هذا الصف أشياء. اضغط مرة أخرى"}, "גיטרה בבוקר": {"en": "Morning guitar", "es": "Guitarra mañanera", "fr": "Guitare du matin", "ru": "Утренняя гитара", "ar": "غيتار الصباح"}, "גיטרה עדינה ושמחה": {"en": "Gentle, happy guitar", "es": "Guitarra suave y alegre", "fr": "Guitare douce et joyeuse", "ru": "Нежная весёлая гитара", "ar": "غيتار هادئ ومبهج"}, "בוקר קופצני": {"en": "Bouncy morning", "es": "Mañana saltarina", "fr": "Matin sautillant", "ru": "Прыгучее утро", "ar": "صباح نطّاط"}, "שמח וקצת קופץ": {"en": "Happy and a bit bouncy", "es": "Alegre y un poco saltarín", "fr": "Joyeux et un peu sautillant", "ru": "Весёлое и немного прыгучее", "ar": "مبهج ونطّاط قليلًا"}, "פעמוני רוח": {"en": "Wind chimes", "es": "Campanillas de viento", "fr": "Carillon à vent", "ru": "Музыка ветра", "ar": "أجراس الرياح"}, "ההצעה שלי: כמו פעמונים שזזים ברוח": {"en": "My idea: like bells moving in the wind", "es": "Mi idea: como campanas que se mueven con el viento", "fr": "Mon idée : comme des clochettes qui bougent au vent", "ru": "Моя идея: как колокольчики на ветру", "ar": "فكرتي: مثل أجراس تتحرك مع الريح"}, "ככה נשמע השעון המעורר": {"en": "This is how the alarm sounds", "es": "Así suena la alarma", "fr": "Voilà comment sonne l'alarme", "ru": "Вот так звучит будильник", "ar": "هكذا يبدو صوت المنبه"}, "מתחיל ב־{t}": {"en": "Starts at {t}", "es": "Empieza a las {t}", "fr": "Commence à {t}", "ru": "Начало в {t}", "ar": "يبدأ في {t}"}, "לשמוע": {"en": "Listen", "es": "Escuchar", "fr": "Écouter", "ru": "Послушать", "ar": "استمع"}, "נבחר": {"en": "Chosen", "es": "Elegido", "fr": "Choisi", "ru": "Выбрано", "ar": "مُختار"}, "לבחור": {"en": "Choose", "es": "Elegir", "fr": "Choisir", "ru": "Выбрать", "ar": "اختر"}, "הצלצול שלך עכשיו: {n}": {"en": "Your ringtone now: {n}", "es": "Tu tono ahora: {n}", "fr": "Ta sonnerie actuelle : {n}", "ru": "Твоя мелодия сейчас: {n}", "ar": "نغمتك الآن: {n}"}, "בדיקה": {"en": "Test", "es": "Prueba", "fr": "Test", "ru": "Проверка", "ar": "تجربة"}, "מצלצל ב־{t}": {"en": "Rings at {t}", "es": "Suena a las {t}", "fr": "Sonne à {t}", "ru": "Звонит в {t}", "ar": "يرن في {t}"}, "אין שעה עדיין": {"en": "No time yet", "es": "Sin hora todavía", "fr": "Pas encore d'heure", "ru": "Время ещё не указано", "ar": "لا يوجد وقت بعد"}, "(מתחיל ב־{t})": {"en": "(starts at {t})", "es": "(empieza a las {t})", "fr": "(commence à {t})", "ru": "(начало в {t})", "ar": "(يبدأ في {t})"}, "עצור כרגע": {"en": "Paused for now", "es": "En pausa por ahora", "fr": "En pause pour l'instant", "ru": "Сейчас на паузе", "ar": "متوقف حاليًا"}, "להפעיל שוב": {"en": "Turn back on", "es": "Activar de nuevo", "fr": "Réactiver", "ru": "Включить снова", "ar": "شغّله مرة أخرى"}, "לעצור בינתיים": {"en": "Pause for now", "es": "Pausar por ahora", "fr": "Mettre en pause", "ru": "Поставить на паузу", "ar": "أوقفه مؤقتًا"}, "למחוק": {"en": "Delete", "es": "Borrar", "fr": "Supprimer", "ru": "Удалить", "ar": "احذف"}, "עוד אין צלצולים. כדי להוסיף, לוחצים על קובייה ומסמנים \"שעון מעורר\".": {"en": "No alarms yet. To add one, tap a box and check “Alarm”.", "es": "Todavía no hay alarmas. Para añadir una, toca un cuadro y marca «Alarma».", "fr": "Pas encore d'alarmes. Pour en ajouter, touche une case et coche « Alarme ».", "ru": "Будильников пока нет. Чтобы добавить, нажми на клетку и отметь «Будильник».", "ar": "لا توجد منبهات بعد. لإضافة منبه، اضغط على مربع وحدد «منبه»."}, "בטוח? ללחוץ שוב": {"en": "Sure? Tap again", "es": "¿Seguro? Pulsa otra vez", "fr": "Sûr ? Appuie encore", "ru": "Точно? Нажми ещё раз", "ar": "متأكد؟ اضغط مرة أخرى"}, "כרגע אני לא יכול לענות פה. אפשר לערוך את הלוח בלחיצה על הקוביות.": {"en": "I can't answer here right now. You can edit the board by tapping the boxes.", "es": "Ahora no puedo responder aquí. Puedes editar el tablero tocando los cuadros.", "fr": "Je ne peux pas répondre ici pour l'instant. Tu peux modifier le tableau en touchant les cases.", "ru": "Сейчас я не могу здесь ответить. Таблицу можно менять, нажимая на клетки.", "ar": "لا أستطيع الإجابة هنا الآن. يمكنك تعديل اللوح بالضغط على المربعات."}, "בגרסה שבמחשב אני לא יכול לענות, כי אני צריך את Claude. אפשר לערוך את הלוח בלחיצה על הקוביות.": {"en": "In the computer version I can't answer, because I need Claude. You can edit the board by tapping the boxes.", "es": "En la versión del ordenador no puedo responder, porque necesito a Claude. Puedes editar el tablero tocando los cuadros.", "fr": "Dans la version sur l'ordinateur, je ne peux pas répondre, car j'ai besoin de Claude. Tu peux modifier le tableau en touchant les cases.", "ru": "В версии на компьютере я не могу отвечать, потому что мне нужен Claude. Таблицу можно менять, нажимая на клетки.", "ar": "في نسخة الحاسوب لا أستطيع الإجابة، لأنني أحتاج إلى Claude. يمكنك تعديل اللوح بالضغط على المربعات."}, "חושב…": {"en": "Thinking…", "es": "Pensando…", "fr": "Je réfléchis…", "ru": "Думаю…", "ar": "أفكر…"}, "צריך לאשר לי לענות (בחלון שקפץ). בינתיים אפשר לערוך את הלוח בלחיצה.": {"en": "You need to allow me to answer (in the window that popped up). Meanwhile you can edit the board by tapping.", "es": "Tienes que permitirme responder (en la ventana que apareció). Mientras tanto puedes editar el tablero tocando.", "fr": "Il faut m'autoriser à répondre (dans la fenêtre qui s'est ouverte). En attendant, tu peux modifier le tableau en touchant.", "ru": "Нужно разрешить мне отвечать (в появившемся окне). А пока таблицу можно менять нажатиями.", "ar": "يجب أن تسمح لي بالإجابة (في النافذة التي ظهرت). في الأثناء يمكنك تعديل اللوح بالضغط."}, "שאלת הרבה שאלות ברצף. נסי שוב עוד מעט.": {"en": "You asked lots of questions in a row. Try again in a little while.", "es": "Hiciste muchas preguntas seguidas. Inténtalo de nuevo en un rato.", "fr": "Tu as posé beaucoup de questions d'affilée. Réessaie dans un moment.", "ru": "Ты задала много вопросов подряд. Попробуй чуть позже.", "ar": "سألت أسئلة كثيرة متتالية. حاول مرة أخرى بعد قليل."}, "הדיבור עם הלוח לא זמין בחשבון הזה.": {"en": "Talking with the board isn't available on this account.", "es": "Hablar con el tablero no está disponible en esta cuenta.", "fr": "Parler avec le tableau n'est pas disponible sur ce compte.", "ru": "Разговор с таблицей недоступен в этом аккаунте.", "ar": "التحدث مع اللوح غير متاح في هذا الحساب."}, "משהו השתבש. נסי לשלוח שוב.": {"en": "Something went wrong. Try sending again.", "es": "Algo salió mal. Intenta enviarlo otra vez.", "fr": "Quelque chose n'a pas marché. Réessaie d'envoyer.", "ru": "Что-то пошло не так. Попробуй отправить ещё раз.", "ar": "حدث خطأ ما. حاول الإرسال مرة أخرى."}, "היי! {name}הזמנתי אותך ללוח השבועי שלי. אפשר להוסיף לי שם חוגים ודברים לבית הספר: {link}": {"en": "Hi! {name}I invited you to my weekly board. You can add my activities and school things there: {link}", "es": "¡Hola! {name}Te invité a mi tablero semanal. Ahí puedes añadirme actividades y cosas del colegio: {link}", "fr": "Coucou ! {name}Je t'ai invité sur mon tableau de la semaine. Tu peux y ajouter mes activités et des choses pour l'école : {link}", "ru": "Привет! {name}Я приглашаю тебя в мою недельную таблицу. Там можно добавлять мои кружки и школьные дела: {link}", "ar": "مرحبًا! {name}دعوتك إلى لوحي الأسبوعي. يمكنك أن تضيف لي هناك الأنشطة وأمور المدرسة: {link}"}, "זו {n}. ": {"en": "It's {n}. ", "es": "Soy {n}. ", "fr": "C'est {n}. ", "ru": "Это {n}. ", "ar": "أنا {n}. "}, "קודם כותבים למעלה את מספר הטלפון של ההורה, ואז לוחצים שוב על להזמין.": {"en": "First write the parent's phone number above, then press Invite again.", "es": "Primero escribe arriba el teléfono del padre o la madre, y luego pulsa Invitar otra vez.", "fr": "Écris d'abord le numéro du parent en haut, puis appuie de nouveau sur Inviter.", "ru": "Сначала напиши наверху номер телефона родителя, потом снова нажми «Пригласить».", "ar": "اكتب أولًا رقم هاتف الوالد في الأعلى، ثم اضغط «ادعُ» مرة أخرى."}, "המספר הזה לא נראה נכון. כותבים למשל 050-1234567.": {"en": "This number doesn't look right. Write it like 050-1234567.", "es": "Este número no parece correcto. Escríbelo así: 050-1234567.", "fr": "Ce numéro ne semble pas correct. Écris-le comme 050-1234567.", "ru": "Этот номер выглядит неправильно. Пиши, например, 050-1234567.", "ar": "هذا الرقم لا يبدو صحيحًا. اكتبه مثلًا 050-1234567."}, "אל {n}": {"en": "To {n}", "es": "Para {n}", "fr": "À {n}", "ru": "Кому: {n}", "ar": "إلى {n}"}, "לשלוח בהודעה": {"en": "Send as a text message", "es": "Enviar por mensaje", "fr": "Envoyer par SMS", "ru": "Отправить SMS", "ar": "أرسل برسالة"}, "לשלוח בוואטסאפ": {"en": "Send on WhatsApp", "es": "Enviar por WhatsApp", "fr": "Envoyer sur WhatsApp", "ru": "Отправить в WhatsApp", "ar": "أرسل عبر واتساب"}, "מקשיב…": {"en": "Listening…", "es": "Escuchando…", "fr": "J'écoute…", "ru": "Слушаю…", "ar": "أستمع…"}, "זו הגרסה שבמחשב. כאן \"להוסיף ללוח שלי\" לא עובד, כי הוא צריך את Claude. כל השאר עובד: לוחצים על קובייה וכותבים, ושעונים מעוררים מצלצלים כשהדף פתוח.": {"en": "This is the computer version. Here “Add to my board” doesn't work, because it needs Claude. Everything else works: tap a box and write, and alarms ring while the page is open.", "es": "Esta es la versión del ordenador. Aquí «Añadir a mi tablero» no funciona, porque necesita a Claude. Todo lo demás funciona: toca un cuadro y escribe, y las alarmas suenan mientras la página está abierta.", "fr": "C'est la version sur l'ordinateur. Ici « Ajouter à mon tableau » ne marche pas, car il a besoin de Claude. Tout le reste marche : touche une case et écris, et les alarmes sonnent quand la page est ouverte.", "ru": "Это версия на компьютере. Здесь «Добавить в мою таблицу» не работает, потому что нужен Claude. Всё остальное работает: нажми на клетку и пиши, а будильники звонят, пока страница открыта.", "ar": "هذه نسخة الحاسوب. هنا «أضف إلى لوحي» لا يعمل، لأنه يحتاج إلى Claude. كل الباقي يعمل: اضغط على مربع واكتب، والمنبهات ترن عندما تكون الصفحة مفتوحة."}};
+const DAYS_BY={"he": ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"], "en": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "es": ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"], "fr": ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"], "ru": ["воскресенье", "понедельник", "вторник", "среда", "четверг", "пятница", "суббота"], "ar": ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"]}, LETTERS={"he": "אבגדהוש", "en": "SMTWTFS", "es": "DLMXJVS", "fr": "DLMMJVS", "ru": "ВПВСЧПС", "ar": "حنثرخجس"}, SECS_BY={"he": {"before": "חוגים לפני בית ספר", "school": "בית ספר", "after": "חוגים אחרי בית ספר"}, "en": {"before": "Activities before school", "school": "School", "after": "Activities after school"}, "es": {"before": "Actividades antes del colegio", "school": "Colegio", "after": "Actividades después del colegio"}, "fr": {"before": "Activités avant l'école", "school": "École", "after": "Activités après l'école"}, "ru": {"before": "Кружки до школы", "school": "Школа", "after": "Кружки после школы"}, "ar": {"before": "أنشطة قبل المدرسة", "school": "المدرسة", "after": "أنشطة بعد المدرسة"}};
+let LANG="he";try{LANG=localStorage.getItem("weekly-board-lang")||""}catch(e){LANG=""}
+const curL=()=>LANGS.find(l=>l.code===LANG)||LANGS[0];
+const t=(k,v)=>{let x=(LANG!=="he"&&TR[k]&&(TR[k][LANG]||TR[k].en))||k;if(v)for(const n in v)x=x.split("{"+n+"}").join(v[n]);return x};
+const ORIG=new WeakMap();
+function translateStatic(){
+  document.querySelectorAll(".wrap, dialog, .ring").forEach(root=>{
+    const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;
+    while(n=w.nextNode()){if(n.parentElement.closest("#board,#alarmList,#toneList,#inviteLinks,.no-tr"))continue;
+      if(!ORIG.has(n))ORIG.set(n,n.nodeValue);const o=ORIG.get(n),k=o.trim();if(k&&TR[k])n.nodeValue=o.replace(k,t(k))}
+    root.querySelectorAll("[placeholder],[aria-label],[title]").forEach(el=>{if(el.closest("#board,#alarmList,#toneList,#inviteLinks,.no-tr"))return;
+      ["placeholder","aria-label","title"].forEach(a=>{if(!el.hasAttribute(a))return;const key="data-o-"+a;if(!el.hasAttribute(key))el.setAttribute(key,el.getAttribute(a));const o=el.getAttribute(key);if(TR[o])el.setAttribute(a,t(o))})})
+  });
+}
+function applyLang(){
+  const L=curL();DAYS=DAYS_BY[L.code];SECTIONS=SECS_BY[L.code];
+  document.querySelectorAll(".wrap, dialog form, .ring-card").forEach(el=>{el.setAttribute("dir",L.dir);el.setAttribute("lang",L.code)});
+  document.documentElement.setAttribute("lang",L.code);
+  document.querySelectorAll("#weekDots i").forEach((el,i)=>el.textContent=LETTERS[L.code][i]);
+  $("langBtn").textContent="Language · "+L.name;
+  translateStatic();
+}
+function setLang(code){LANG=code;try{localStorage.setItem("weekly-board-lang",code)}catch(e){}applyLang();render();$("langPick").hidden=true}
+
+const uid=()=>Math.random().toString(36).slice(2,9);
+const mk=()=>({id:uid(),start:"",end:""});
+const fresh=()=>({rows:{before:[mk()],school:[mk(),mk(),mk(),mk(),mk(),mk(),mk()],after:[mk(),mk()]},cells:{},colors:{}});
+let S=fresh(), dbDoc=null, me=null, userApi=null, names={};
+
+// ---------- storage: shared board (so parents can add) with local fallback ----------
+function localLoad(){
+  try{const r=localStorage.getItem(LKEY);if(r)return JSON.parse(r)}catch(e){}
+  try{const r=localStorage.getItem(OLDKEY);if(r){const o=JSON.parse(r);o.rows.before=o.rows.before.length?o.rows.before:[mk()];return o}}catch(e){}
+  return null;
+}
+function localSave(){try{localStorage.setItem(LKEY,JSON.stringify(S))}catch(e){}}
+let writing=false, dirty=false, saveT=null;
+function save(){localSave();if(!dbDoc)return;dirty=true;clearTimeout(saveT);saveT=setTimeout(flush,500)}
+async function flush(){
+  if(writing||!dirty)return; writing=true; dirty=false;
+  try{await dbDoc.set(JSON.parse(JSON.stringify(S)));$("syncState").textContent=t("הלוח שמור ומשותף.")}
+  catch(e){$("syncState").textContent=e.code==="invalid_argument"?t("אפשר לראות את הלוח, אבל אין הרשאה לשנות אותו."):t("לא הצלחתי לשמור עכשיו. ננסה שוב בשינוי הבא.")}
+  writing=false; if(dirty) flush();
+}
+async function connect(){
+  const db=HAS_CLAUDE?await claude.use("db").catch(()=>null):null;
+  userApi=HAS_CLAUDE?await claude.use("user").catch(()=>null):null;
+  if(userApi){try{me=await userApi.id()}catch(e){}}
+  if(!db){$("syncState").textContent=t("כרגע הלוח נשמר רק במכשיר הזה.");return}
+  dbDoc=db.doc("board/main");
+  let first=true;
+  dbDoc.onSnapshot(snap=>{
+    if(snap.exists){ if(!snap.metadata.hasPendingWrites){S=JSON.parse(JSON.stringify(snap.data()));localSave();render()} }
+    else if(first && !snap.metadata.fromCache){ save() }   // first time: put the local board in the shared store
+    if(!snap.metadata.fromCache) first=false;
+    $("syncState").textContent=t("הלוח שמור ומשותף.");
+  },()=>{$("syncState").textContent=t("החיבור לשיתוף נפל. רענני את הדף.")});
+}
+
+// ---------- helpers ----------
+const toMin=t=>{const[h,m]=String(t).split(":").map(Number);return h*60+m};
+const fmt=m=>{m=((m%1440)+1440)%1440;return String(Math.floor(m/60)).padStart(2,"0")+":"+String(m%60).padStart(2,"0")};
+const okT=t=>/^\d{1,2}:\d{2}$/.test(String(t||""));
+const normT=t=>okT(t)?fmt(toMin(t)):"";
+const norm=s=>String(s).trim().replace(/\s+/g," ");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const ck=(r,d)=>r+"|"+d;
+function colorFor(name){
+  const k=norm(name);if(!k)return null;
+  if(S.colors[k]==null){const used=Object.values(S.colors);let i=used.length%NCOL;for(let n=0;n<NCOL;n++)if(!used.includes(n)){i=n;break}S.colors[k]=i}
+  return `var(--c${S.colors[k]})`;
+}
+function tidyColors(){const live=new Set(Object.values(S.cells).map(c=>norm(c.name)));for(const k in S.colors)if(!live.has(k))delete S.colors[k]}
+function findRow(id){for(const sec of ORDER){const r=S.rows[sec].find(x=>x.id===id);if(r)return{sec,row:r,index:S.rows[sec].indexOf(r)}}return null}
+const times=(c,row)=>({start:c.start||row.start,end:c.end||row.end});
+const rowLabel=(sec,i)=>sec==="school"?t("שעה {n}",{n:i+1}):t("חוג {n}",{n:i+1});
+
+// ---------- render ----------
+async function render(){
+  const today=new Date().getDay();
+  const cg=`<colgroup><col class="hcol">${DAYS.map(()=>"<col>").join("")}</colgroup>`;
+  const chips=`<div class="chips"><button type="button" class="daychip ${focusDay==null?"on":""}" data-focus="">${t("כל השבוע")}</button>${DAYS.map((d,i)=>`<button type="button" class="daychip ${focusDay===i?"on":""} ${i===today?"is-today":""}" data-focus="${i}">${d}</button>`).join("")}</div>`;
+  if(focusDay!=null){ $("board").innerHTML=chips+dayView(focusDay,today); return; }
+  let h=`<div class="block head"><table>${cg}<tr><th></th>${DAYS.map((d,i)=>`<th class="${i===today?"today":""}">${d}</th>`).join("")}</tr></table>${chips}</div>`;
+  for(const sec of ORDER){
+    h+=`<div class="block ${sec}"><h2 class="sec">${SECTIONS[sec]}</h2><table>${cg}`;
+    S.rows[sec].forEach((row,ri)=>{
+      const hl=row.start?`${row.start}${row.end?"<br>"+row.end:""}`:"";
+      h+=`<tr><td class="hour"><div class="hourbox"><b>${rowLabel(sec,ri)}</b>${hl}</div></td>`;
+      DAYS.forEach((_,d)=>{
+        const c=S.cells[ck(row.id,d)];
+        if(c&&c.name){const tt=times(c,row),custom=c.start||c.end;
+          const by=c.by&&me&&c.by!==me?`<span class="by" data-by="${esc(c.by)}">${t('נוסף ע"י {n}',{n:esc(names[c.by]||t("הורה"))})}</span>`:"";
+          h+=`<td class="cellwrap"><button type="button" class="cell full" data-row="${row.id}" data-day="${d}" style="--c:${colorFor(c.name)}"><span class="dname">${DAYS[d]}</span>
+            <span class="n">${esc(c.name)}</span>${c.desc?`<span class="d">${esc(c.desc)}</span>`:""}
+            ${custom&&tt.start?`<span class="tm">${tt.start}${tt.end?"–"+tt.end:""}</span>`:""}
+            ${c.alarm&&tt.start?`<span class="bell ${c.paused?"off":""}">${c.paused?t("צלצול עצור"):t("צלצול {t}",{t:fmt(toMin(tt.start)-c.before)})}</span>`:""}${by}</button></td>`;
+        }else if(S.hidden&&S.hidden[ck(row.id,d)]) h+=`<td class="cellwrap"><button type="button" class="restore" data-restore="${ck(row.id,d)}" aria-label="${t("להחזיר את הקובייה")}, ${DAYS[d]}" title="${t("להחזיר את הקובייה")}">+</button></td>`;
+        else if(delMode) h+=`<td class="cellwrap"><button type="button" class="cell kill" data-hide="${ck(row.id,d)}" aria-label="למחוק את הקובייה, יום ${DAYS[d]}" title="למחוק את הקובייה">−</button></td>`;
+        else h+=`<td class="cellwrap"><button type="button" class="cell" data-row="${row.id}" data-day="${d}" aria-label="${t("לכתוב בקובייה")}, ${SECTIONS[sec]}, ${DAYS[d]}"><span class="dname">${DAYS[d]}</span></button><button type="button" class="minusbar" data-hide="${ck(row.id,d)}" aria-label="${t("למחוק את הקובייה")}, ${DAYS[d]}" title="${t("למחוק את הקובייה")}"></button></td>`;
+      });
+      h+=`</tr>`;
+    });
+    h+=`</table><div class="addrow"><button type="button" data-add="${sec}">${sec==="school"?t("+ עוד שורה"):t("+ עוד שורה של חוגים")}</button>${S.rows[sec].length?`<button type="button" data-droprow="${sec}">${sec==="school"?t("− להוריד שורה"):t("− להוריד שורה של חוגים")}</button>`:""}</div></div>`;
+  }
+  $("board").innerHTML=h;
+  $("names").innerHTML=Object.keys(S.colors).map(n=>`<option value="${esc(n)}">`).join("");
+  // resolve names of whoever added things (never stored, looked up each time)
+  const ids=[...new Set(Object.values(S.cells).map(c=>c.by).filter(b=>b&&b!==me&&!names[b]))];
+  if(ids.length&&userApi){try{const ps=await userApi.profiles(ids);let ch=false;
+    ids.forEach(i=>{const n=ps[i]&&ps[i].name;if(n){names[i]=n;ch=true}});
+    if(ch)document.querySelectorAll("[data-by]").forEach(el=>{const n=names[el.dataset.by];if(n)el.textContent=t('נוסף ע"י {n}',{n})})}catch(e){}}
+}
+
+function dayView(d,today){
+  let h=`<div class="dayview"><h2 class="dv-title">${t("יום {d}",{d:DAYS[d]})}${d===today?` <span class="dv-today">${t("היום")}</span>`:""}</h2>`;
+  for(const sec of ORDER){
+    const items=S.rows[sec].map((row,ri)=>({row,ri,c:S.cells[ck(row.id,d)],hid:S.hidden&&S.hidden[ck(row.id,d)]})).filter(x=>!x.hid);
+    h+=`<div class="block ${sec} dv-sec"><h3 class="sec">${SECTIONS[sec]}</h3><div class="dv-list">`;
+    items.forEach(({row,c},vi)=>{const tm=c?times(c,row):row;
+      h+=`<div class="dv-wrap"><button type="button" class="dv-item ${c&&c.name?"full":""}" data-fitem="${row.id}" style="--c:${c&&c.name?colorFor(c.name):"var(--edge)"}">
+        <span class="dv-time">${tm.start?tm.start+(tm.end?"–"+tm.end:""):rowLabel(sec,vi)}</span>
+        <span class="dv-name">${c&&c.name?esc(c.name):''}</span>
+        ${c&&c.desc?`<span class="dv-desc">${esc(c.desc)}</span>`:""}${c&&c.alarm&&tm.start?`<span class="bell ${c.paused?"off":""}">${c.paused?t("צלצול עצור"):t("צלצול {t}",{t:fmt(toMin(tm.start)-c.before)})}</span>`:""}</button>${c&&c.name?"":`<button type="button" class="minusbar" data-hide="${ck(row.id,d)}" aria-label="${t("למחוק את הקובייה")}" title="${t("למחוק את הקובייה")}"></button>`}</div>`});
+    h+=`</div><div class="addrow"><button type="button" data-addday="${sec}">${sec==="school"?t("+ עוד שורה"):t("+ עוד שורה של חוגים")}</button></div></div>`;
+  }
+  return h+`</div>`;
+}
+
+// ---------- editing ----------
+function addRow(sec,start,end){const r=mk();r.start=normT(start);r.end=normT(end);S.rows[sec].push(r);return r}
+function setRowTime(rowId,start,end){const f=findRow(rowId);if(!f)throw new Error("no such row");f.row.start=normT(start);f.row.end=normT(end);save();render()}
+function setCell(rowId,day,v){
+  const f=findRow(rowId);if(!f)throw new Error("no such row");
+  const name=norm(v.name||"");
+  if(!name){delete S.cells[ck(rowId,day)];tidyColors();save();render();return}
+  const old=S.cells[ck(rowId,day)]||{};
+  const c={name,desc:norm(v.desc??old.desc??""),alarm:v.alarm??old.alarm??false,before:v.before??old.before??15,by:old.by||me||null};
+  if(c.alarm&&old.paused)c.paused=true;
+  if(old.name&&old.name!==name)c.by=me||null;
+  let st=v.start!==undefined?normT(v.start):(old.start||""), en=v.end!==undefined?normT(v.end):(old.end||"");
+  // school hours belong to the whole row; clubs can have their own time
+  if(f.sec==="school"||(!f.row.start&&!f.row.end)){ if(st)f.row.start=st; if(en)f.row.end=en; st="";en="" }
+  if(st&&st!==f.row.start)c.start=st; if(en&&en!==f.row.end)c.end=en;
+  if(S.hidden)delete S.hidden[ck(rowId,day)];S.cells[ck(rowId,day)]=c;colorFor(name);tidyColors();save();render();
+}
+
+let cur=null;
+function syncBefore(){$("beforeWrap").hidden=!$("fAlarm").checked;$("fErr").hidden=true}
+$("fAlarm").addEventListener("change",syncBefore);
+$("fName").addEventListener("input",()=>{const k=norm($("fName").value);
+  $("swatchHint").innerHTML=k&&S.colors[k]!=null?`<i class="swatch" style="background:var(--c${S.colors[k]})"></i> ${t("אותו צבע כמו קודם")}`:""});
+function openCell(rowId,day){
+  const f=findRow(rowId);if(!f)return;cur={rowId,day};
+  const c=S.cells[ck(rowId,day)]||{};const tm=times(c,f.row);
+  const vis=S.rows[f.sec].filter(r=>!(S.hidden&&S.hidden[ck(r.id,day)]));
+  $("dlgTitle").textContent=`${t("יום {d}",{d:DAYS[day]})} · ${rowLabel(f.sec,Math.max(0,vis.indexOf(f.row)))}`;
+  $("fName").value=c.name||"";$("fDesc").value=c.desc||"";$("fStart").value=tm.start||"";$("fEnd").value=tm.end||"";
+  $("fAlarm").checked=!!c.alarm;$("fBefore").value=c.before??15;syncBefore();
+  $("fName").dispatchEvent(new Event("input"));$("dlg").showModal();
+}
+let delMode=false, focusDay=null;
+$("board").addEventListener("click",e=>{
+  const fc=e.target.closest("[data-focus]");if(fc){const v=fc.dataset.focus;focusDay=v===""?null:Number(v);render();return}
+  const ad=e.target.closest("[data-addday]");if(ad){const r=addRow(ad.dataset.addday);
+    DAYS.forEach((_,i)=>{if(i!==focusDay)(S.hidden=S.hidden||{})[ck(r.id,i)]=true});save();render();openCell(r.id,focusDay);return}
+  const fi=e.target.closest("[data-fitem]");if(fi){openCell(fi.dataset.fitem,focusDay);return}
+  const mi=e.target.closest("[data-hide]");if(mi){(S.hidden=S.hidden||{})[mi.dataset.hide]=true;save();render();return}
+  const dr=e.target.closest("[data-droprow]");if(dr){const sec=dr.dataset.droprow,rows=S.rows[sec],last=rows[rows.length-1];if(!last)return;
+    const has=DAYS.some((_,d)=>S.cells[ck(last.id,d)]);
+    if(has&&dr.dataset.sure!=="1"){dr.dataset.sure="1";dr.textContent=t("בטוח? יש בקו הזה דברים. ללחוץ שוב");return}
+    rows.pop();for(const k in S.cells)if(k.startsWith(last.id+"|"))delete S.cells[k];tidyColors();save();render();return}
+  const rs=e.target.closest("[data-restore]");if(rs){if(S.hidden)delete S.hidden[rs.dataset.restore];save();render();return}
+  const c=e.target.closest(".cell");if(c){openCell(c.dataset.row,Number(c.dataset.day));return}
+  const hr=e.target.closest(".hour button");if(hr){openRow(hr.dataset.row);return}
+  const a=e.target.closest("[data-add]");if(a){addRow(a.dataset.add);save();render()}
+});
+$("cancelBtn").onclick=()=>$("dlg").close();
+$("frm").addEventListener("submit",e=>{
+  e.preventDefault();
+  if($("fAlarm").checked&&!$("fStart").value){$("fErr").hidden=false;return}
+  setCell(cur.rowId,cur.day,{name:$("fName").value,desc:$("fDesc").value,alarm:$("fAlarm").checked,before:Number($("fBefore").value),start:$("fStart").value,end:$("fEnd").value});
+  if($("fAlarm").checked)unlockAudio();$("dlg").close();
+});
+$("clearCellBtn").onclick=()=>{delete S.cells[ck(cur.rowId,cur.day)];tidyColors();save();render();$("dlg").close()};
+
+let curRow=null;
+function openRow(id){const f=findRow(id);curRow=id;$("rTitle").textContent=`${SECTIONS[f.sec]} · ${rowLabel(f.sec,f.index)}: מתי זה?`;
+  $("rStart").value=f.row.start;$("rEnd").value=f.row.end;$("rowDlg").showModal()}
+$("rCancel").onclick=()=>$("rowDlg").close();
+$("rowFrm").addEventListener("submit",e=>{e.preventDefault();setRowTime(curRow,$("rStart").value,$("rEnd").value);$("rowDlg").close()});
+$("rDel").onclick=()=>{const f=findRow(curRow);S.rows[f.sec]=S.rows[f.sec].filter(r=>r.id!==curRow);
+  for(const k in S.cells)if(k.startsWith(curRow+"|"))delete S.cells[k];tidyColors();save();render();$("rowDlg").close()};
+
+// ---------- sound + alarms ----------
+let audioCtx=null,beepTimer=null,ringing=null,snoozes=[];
+function unlockAudio(){try{if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==="suspended")audioCtx.resume()}catch(e){}}
+// ringtones: built-in tunes are drawn with sound code; a song of your own is kept only on this device
+const TONES=[
+ {id:"calm",name:"גיטרה בבוקר",desc:"גיטרה עדינה ושמחה",fx:"guitar"},
+ {id:"bouncy",name:"בוקר קופצני",desc:"שמח וקצת קופץ",fx:"bouncy"},
+ {id:"chimes",name:"פעמוני רוח",desc:"ההצעה שלי: כמו פעמונים שזזים ברוח",fx:"chimes"}
+];
+let chorusAt=0;try{chorusAt=Number(localStorage.getItem("weekly-board-chorus"))||0}catch(e){}
+let toneId="calm", custom=null /* {name, data:ArrayBuffer} */, customBuf=null, curSrc=null;
+try{toneId=localStorage.getItem("weekly-board-tone")||"calm"}catch(e){}
+if(!TONES.some(t=>t.id===toneId))toneId="calm";
+function idb(){return new Promise((res,rej)=>{try{const r=indexedDB.open("weekly-board-tones",1);r.onupgradeneeded=()=>r.result.createObjectStore("songs");r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)}catch(e){rej(e)}})}
+async function loadCustom(){try{const db=await idb();const v=await new Promise(r=>{const q=db.transaction("songs").objectStore("songs").get("mine");q.onsuccess=()=>r(q.result);q.onerror=()=>r(null)});if(v&&v.data)custom=v}catch(e){}}
+async function saveCustom(v){try{const db=await idb();await new Promise((r,j)=>{const t=db.transaction("songs","readwrite");t.objectStore("songs").put(v,"mine");t.oncomplete=r;t.onerror=()=>j(t.error)});return true}catch(e){return false}}
+async function prepCustom(){if(!custom||customBuf||!audioCtx)return;try{customBuf=await audioCtx.decodeAudioData(custom.data.slice(0))}catch(e){customBuf=null}}
+function note(f,t,d,type,vol,att){const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type||"sine";o.frequency.value=f;
+  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+(att||.015));g.gain.exponentialRampToValueAtTime(.0001,t+d);
+  o.connect(g).connect(audioCtx.destination);o.start(t);o.stop(t+d+.02)}
+const pluckCache={};
+function pluckBuf(f){
+  const key=Math.round(f);if(pluckCache[key])return pluckCache[key];
+  const sr=audioCtx.sampleRate,len=Math.floor(sr*2.6),N=Math.max(2,Math.round(sr/f));
+  const buf=audioCtx.createBuffer(1,len,sr),y=buf.getChannelData(0);
+  let prev=0;for(let i=0;i<N;i++){const r=Math.random()*2-1;prev=prev*.5+r*.5;y[i]=prev}   // softened noise = nylon-ish pick
+  y[N]=y[0]*.994;for(let i=N+1;i<len;i++)y[i]=.994*.5*(y[i-N]+y[i-N-1]);   // start one past N so no index goes below 0
+  return pluckCache[key]=buf;
+}
+function pluck(f,t,vol){const src=audioCtx.createBufferSource(),g=audioCtx.createGain(),lp=audioCtx.createBiquadFilter();
+  src.buffer=pluckBuf(f);lp.type="lowpass";lp.frequency.value=4200;g.gain.value=vol;
+  src.connect(lp).connect(g).connect(audioCtx.destination);src.start(t)}
+function playTone(id){ // returns length in seconds
+  if(!audioCtx)return 1.2;
+  const t0=audioCtx.currentTime+.02;
+  if(id==="mine"){ if(!customBuf){prepCustom();id="calm"} else {const s=audioCtx.createBufferSource();s.buffer=customBuf;s.connect(audioCtx.destination);const off=Math.min(chorusAt,Math.max(0,customBuf.duration-1));s.start(0,off);s.stop(audioCtx.currentTime+30);curSrc=s;return Math.min(customBuf.duration-off,30)} }
+  const tn=TONES.find(x=>x.id===id)||TONES[0];
+  if(tn.fx==="birds"){let t=t0;for(let i=0;i<6;i++){const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.frequency.setValueAtTime(2600,t);o.frequency.exponentialRampToValueAtTime(4200,t+.07);
+      g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.18,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+.08);o.connect(g).connect(audioCtx.destination);o.start(t);o.stop(t+.1);t+=i%3===2?.3:.11}
+    return t-t0}
+  if(tn.fx==="guitar"){ // light, happy fingerpicking: C - F - G - C, an octave up
+    const pat=[[262,392,523,659,523,392],[349,440,523,698,523,440],[392,494,587,784,587,494]];
+    let t=t0;const step=.2;
+    pat.forEach(bar=>bar.forEach((f,i)=>{pluck(f,t,i%3===0?.5:.38);t+=step}));
+    [523,659,784,1047].forEach(f=>{pluck(f,t,.42);t+=.14});   // little happy run up at the end
+    return t-t0+1.4}
+  if(tn.fx==="calm"){const seq=[392,494,587,784,587];seq.forEach((f,i)=>{note(f,t0+i*.6,1.4,"sine",.16,.3);note(f/2,t0+i*.6,1.4,"sine",.05,.3)});return seq.length*.6+1}
+  if(tn.fx==="bouncy"){ // swing rhythm: long-short, long-short, looong ("da-di da-di daaa")
+    const seq=[[523,.18],[659,.09],[784,.18],[659,.09],[880,.34],[0,.12],
+               [784,.18],[880,.09],[1047,.18],[880,.09],[784,.34],[0,.12],
+               [659,.18],[784,.09],[880,.18],[988,.09],[1047,.45]];
+    let t=t0;for(const[f,d]of seq){if(f)note(f,t,Math.max(.1,d*.9),"triangle",d>.15?.26:.2);t+=d}return t-t0}
+  if(tn.fx==="chimes"){const p=[1047,1175,1319,1568,1760,2093];let t=t0;for(let i=0;i<8;i++){const f=p[(Math.random()*p.length)|0];note(f,t,1.8,"sine",.1,.01);note(f*2.76,t,.6,"sine",.02,.01);t+=.15+Math.random()*.25}return t-t0+1.2}
+  if(tn.fx==="sparkle"){let t=t0;for(let i=0;i<12;i++){note(1500+Math.random()*1800,t,.25,"sine",.12);t+=.07}return t-t0+.3}
+  let t=t0;
+  for(const [f,d,type] of tn.notes){ if(f){ if(tn.bell){note(f,t,d*2,"sine",.22);note(f*2.01,t,d,"sine",.06)} else note(f,t,d,type,type==="square"?.14:type==="sawtooth"?.1:.24)} t+=d }
+  return t-t0+(tn.bell?.5:0);
+}
+const beep=()=>playTone("calm");
+// sound turns on by itself at the first tap or key press anywhere on the page
+["pointerdown","keydown"].forEach(ev=>document.addEventListener(ev,unlockAudio,{once:true,capture:true}));
+function loopTone(){const d=playTone(toneId);beepTimer=setTimeout(loopTone,(d+.5)*1000)}
+function ring(a){ringing=a;$("ringName").textContent=a.name;
+  $("ringWhen").textContent=a.test?t("ככה נשמע השעון המעורר"):t("מתחיל ב־{t}",{t:a.start})+(a.desc?" · "+a.desc:"");
+  $("ring").hidden=false;clearTimeout(beepTimer);loopTone();
+  if(a.test)setTimeout(()=>{if(ringing===a)stopRing()},6000)}
+function stopRing(){clearTimeout(beepTimer);try{curSrc&&curSrc.stop()}catch(e){}curSrc=null;$("ring").hidden=true;ringing=null}
+
+// ringtone picker
+function toneName(id){return id==="mine"&&custom?"השיר שלי: "+custom.name:(TONES.find(x=>x.id===id)||TONES[0]).name}
+function renderTones(){
+  const q="";
+  let list=TONES.map(x=>({id:x.id,name:x.name,tags:x.desc||"",desc:x.desc}));
+  if(custom)list.unshift({id:"mine",name:"השיר שלי: "+custom.name,tags:"שלי שיר"});
+  const shown=list.filter(x=>!q||(x.name+" "+x.tags).includes(q));
+  $("toneList").innerHTML=shown.length?shown.map(x=>`<div class="tone ${x.id===toneId?"chosen":""}">
+      <span class="tone-name">${esc(t(x.name))}${x.desc?`<small class="tone-desc">${esc(t(x.desc))}</small>`:""}</span>
+      <button type="button" class="btn-soft tone-play" data-play="${x.id}">${t("לשמוע")}</button>
+      <button type="button" class="${x.id===toneId?"btn-main":"btn-soft"} tone-pick" data-pick="${x.id}">${x.id===toneId?t("נבחר"):t("לבחור")}</button></div>`).join("")
+    :`<p class="note">לא מצאתי צלצול כזה. אפשר להעלות שיר משלך למטה.</p>`;
+  $("toneNow").textContent=t("הצלצול שלך עכשיו: {n}",{n:t(toneName(toneId))});
+}
+$("testBtn").onclick=()=>{unlockAudio();prepCustom();renderTones();$("toneDlg").showModal()};
+
+
+$("toneList").addEventListener("click",e=>{
+  const p=e.target.closest("[data-play]");if(p){unlockAudio();prepCustom().then(()=>playTone(p.dataset.play));return}
+  const k=e.target.closest("[data-pick]");if(k){toneId=k.dataset.pick;try{localStorage.setItem("weekly-board-tone",toneId)}catch(er){}renderTones()}
+});
+$("toneTest").onclick=()=>{$("toneDlg").close();unlockAudio();prepCustom().then(()=>ring({name:t("בדיקה"),test:true}))};
+$("toneClose").onclick=()=>$("toneDlg").close();
+function alarmItems(){const out=[];
+  for(const k in S.cells){const c=S.cells[k];if(!c.alarm)continue;const[rowId,dayS]=k.split("|");const f=findRow(rowId);if(!f)continue;
+    const t=times(c,f.row);out.push({k,c,day:Number(dayS),start:t.start,ringAt:t.start?fmt(toMin(t.start)-c.before):null})}
+  return out.sort((a,b)=>a.day-b.day||(a.ringAt?toMin(a.ringAt):9999)-(b.ringAt?toMin(b.ringAt):9999))}
+function renderAlarms(){const it=alarmItems();
+  $("alarmList").innerHTML=it.length?it.map(a=>`<div class="al ${a.c.paused?"paused":""}">
+      <div class="al-info"><b>${esc(a.c.name)}</b>
+        <span>${t("יום {d}",{d:DAYS[a.day]})} · ${a.ringAt?t("מצלצל ב־{t}",{t:a.ringAt}):t("אין שעה עדיין")}${a.start?" "+t("(מתחיל ב־{t})",{t:a.start}):""}</span>
+        ${a.c.paused?`<span class="al-state">${t("עצור כרגע")}</span>`:""}</div>
+      <button type="button" class="al-btn" data-pause="${a.k}" title="${a.c.paused?t("להפעיל שוב"):t("לעצור בינתיים")}" aria-label="${a.c.paused?t("להפעיל שוב"):t("לעצור בינתיים")}">${a.c.paused?"+":"−"}</button>
+      <button type="button" class="al-del" data-del="${a.k}">${t("למחוק")}</button></div>`).join("")
+    :`<p class="note">${t('עוד אין צלצולים. כדי להוסיף, לוחצים על קובייה ומסמנים "שעון מעורר".')}</p>`}
+$("alarmsBtn").onclick=()=>{renderAlarms();$("alarmsDlg").showModal()};
+$("alarmsClose").onclick=()=>$("alarmsDlg").close();
+$("alarmList").addEventListener("click",e=>{
+  const p=e.target.closest("[data-pause]");if(p){const c=S.cells[p.dataset.pause];if(c){if(c.paused)delete c.paused;else c.paused=true;save();render();renderAlarms()}return}
+  const d=e.target.closest("[data-del]");if(d){
+    if(d.dataset.sure!=="1"){d.dataset.sure="1";d.textContent=t("בטוח? ללחוץ שוב");return}
+    const c=S.cells[d.dataset.del];if(c){c.alarm=false;delete c.paused;save();render();renderAlarms()}}
+});
+$("stopBtn").onclick=stopRing;
+$("snoozeBtn").onclick=()=>{if(ringing&&!ringing.test)snoozes.push({a:ringing,at:Date.now()+5*60000});stopRing()};
+const fired=new Set();
+function tick(){
+  const n=new Date(),d=n.getDay(),m=n.getHours()*60+n.getMinutes(),dk=n.toDateString();
+  for(const k in S.cells){const c=S.cells[k];if(!c.alarm||c.paused)continue;const[rowId,dayS]=k.split("|");const f=findRow(rowId);if(!f)continue;
+    const t=times(c,f.row);if(!t.start)continue;let at=toMin(t.start)-c.before,day=Number(dayS);if(at<0){at+=1440;day=(day+6)%7}
+    const key=k+"|"+dk+"|"+at;if(day===d&&m===at&&!fired.has(key)){fired.add(key);ring({name:c.name,desc:c.desc,start:t.start})}}
+  snoozes=snoozes.filter(s=>{if(Date.now()>=s.at){ring(s.a);return false}return true});
+}
+
+
+
+// more languages: the six above are built in; any other is translated once by Claude and kept on this device
+const MORE_LANGS=[], CORE_HE={"he": "עברית", "en": "אנגלית", "es": "ספרדית", "fr": "צרפתית", "ru": "רוסית", "ar": "ערבית"};
+const CORE=LANGS.map(l=>l.code);
+function cachedTr(code){try{const v=JSON.parse(localStorage.getItem("weekly-board-tr-"+code)||"null");return v&&v.strings?v:null}catch(e){return null}}
+function installTr(code,v){
+  const meta=MORE_LANGS.find(m=>m.code===code);if(meta&&!LANGS.some(l=>l.code===code))LANGS.push(meta);
+  for(const k in TR){const x=v.strings[k];if(typeof x==="string"&&x.trim())TR[k][code]=x}
+  DAYS_BY[code]=Array.isArray(v.days)&&v.days.length===7?v.days.map(String):DAYS_BY.en;
+  LETTERS[code]=typeof v.letters==="string"&&[...v.letters].length===7?[...v.letters]:DAYS_BY[code].map(d=>[...d][0]);
+  SECS_BY[code]=v.sections&&v.sections.before&&v.sections.school&&v.sections.after?v.sections:SECS_BY.en;
+}
+function allLangs(){return LANGS.filter(l=>CORE.includes(l.code)).map(l=>({...l,he:CORE_HE[l.code]})).concat(MORE_LANGS)}
+function renderLangs(){
+  const q=$("lpSearch").value.trim().toLowerCase();
+  const list=q?allLangs().filter(l=>[l.name,l.en,l.he,l.code].some(x=>String(x).toLowerCase().includes(q))):allLangs().filter(l=>CORE.includes(l.code)||l.code===LANG);
+  $("lpList").innerHTML=list.length?list.map(l=>`<button type="button" class="${l.code===LANG?"on":""}" data-lang="${l.code}" lang="${l.code}" dir="${l.dir}">${l.name}${q&&l.en!==l.name?`<small dir="ltr">${l.en}</small>`:""}</button>`).join("")
+    :`<p class="lp-msg" dir="ltr" style="grid-column:1/-1">No language found. Try its English name, like “German”.</p>`;
+}
+async function chooseLang(code){
+  if(CORE.includes(code)||LANGS.some(l=>l.code===code&&TR["שמירה"][code]))return setLang(code);
+  const meta=MORE_LANGS.find(m=>m.code===code);if(!meta)return;
+  const have=cachedTr(code);if(have){installTr(code,have);return setLang(code)}
+  const msg=$("lpMsg");msg.hidden=false;
+  const sample=HAS_CLAUDE?await claude.use("sample").catch(()=>null):null;
+  if(!sample){msg.textContent=`${meta.name} needs Claude to translate the app. Open my WB inside Claude to use it.`;return}
+  msg.textContent=`Claude is translating my WB into ${meta.name}… this can take up to a minute.`;
+  $("lpList").querySelectorAll("button").forEach(b=>b.disabled=true);
+  const keys={};for(const k in TR)keys[k]=TR[k].en;
+  const prompt=`Translate the user interface of a weekly school-and-activities planner app for children into ${meta.en} (${meta.name}).
+Each key below is the original Hebrew text and its value is the English version for reference. Translate the meaning into simple, friendly ${meta.en} for an 11-year-old.
+Keep every placeholder in curly braces ({n}, {t}, {d}, {name}, {link}) exactly as it is. Keep symbols like +, − and quotes where they make sense.
+Reply with only one JSON object of this shape:
+{"strings": {"<same Hebrew key>": "<${meta.en} text>", ...every key...}, "days": ["Sunday".."Saturday" in ${meta.en}, 7 items, starting with Sunday], "letters": "7 one-letter day abbreviations, Sunday first", "sections": {"before": "Activities before school", "school": "School", "after": "Activities after school"} translated}
+
+Keys:
+${JSON.stringify(keys)}`;
+  try{
+    const v=await sample.json(prompt,{modelTier:"default"});
+    if(!v||typeof v!=="object"||!v.strings)throw {code:"invalid_json"};
+    try{localStorage.setItem("weekly-board-tr-"+code,JSON.stringify(v))}catch(e){}
+    installTr(code,v);msg.hidden=true;setLang(code);
+  }catch(e){
+    msg.textContent=e&&e.code==="not_granted"?"Claude needs your OK to translate. Choose the language again and allow it.":
+      e&&e.code==="rate_limited"?"Too many requests right now. Try again in a little while.":"The translation didn't work this time. Try choosing the language again.";
+  }finally{$("lpList").querySelectorAll("button").forEach(b=>b.disabled=false)}
+}
+$("lpSearch").addEventListener("input",renderLangs);
+$("lpList").addEventListener("click",e=>{const b=e.target.closest("[data-lang]");if(b)chooseLang(b.dataset.lang)});
+$("langBtn").onclick=()=>{$("lpSearch").value="";$("lpMsg").hidden=true;renderLangs();$("langPick").hidden=false;setTimeout(()=>$("lpSearch").focus(),30)};
+const firstVisit=!LANG;
+if(LANG&&!CORE.includes(LANG)){const c=cachedTr(LANG);if(c)installTr(LANG,c);else LANG=""}
+if(!LANG)LANG="he"; applyLang(); renderLangs(); if(firstVisit) $("langPick").hidden=false;
+const loc=localLoad();if(loc)S=loc;
+try{document.querySelectorAll("#weekDots i")[new Date().getDay()].classList.add("on")}catch(e){}
+render();setInterval(tick,10000);tick();
+document.addEventListener("visibilitychange",()=>{if(!document.hidden){render();tick()}});
+</script>
+</body></html>
